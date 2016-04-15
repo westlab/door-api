@@ -30,4 +30,5 @@ func (m *Meata) ToBool() bool {
 // NewMeta creates a new Meata
 func NewMeta(name string, value string) Meta {
 	// TODO: implement add Meta using dbr
+	return Meta{}
 }
