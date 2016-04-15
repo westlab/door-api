@@ -15,6 +15,6 @@ type Word struct {
 }
 
 // NewWord creates a new Word
-func NewWord(name string, count int64) {
-
+func NewWord(name string, count int64) Word {
+	return Word{}
 }
