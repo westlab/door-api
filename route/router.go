@@ -21,12 +21,12 @@ func Init() *echo.Echo {
 	{
 		// browsing
 		v1.Get("/browsings", api.GetBrowsing)
-		v1.POST("/browsings", api.CreateBrowsing)
-		v1.PUT("/browsings", api.UpdateBrowsing)
-		v1.DELETE("/browsings", api.DeleteBrowsing)
+		v1.Post("/browsings", api.CreateBrowsing)
+		v1.Put("/browsings", api.UpdateBrowsing)
+		v1.Delete("/browsings", api.DeleteBrowsing)
 
 		v1.Get("/browsing_histogram", api.GetBrowsingHistorgram)
-		v1.Get("/ip_rank", api.GetIpRank)
+		v1.Get("/ip_rank", api.GetIPRank)
 		v1.Get("/domain_rank", api.GetDomainRank)
 		v1.Get("/word_rank", api.GetWordRank)
 

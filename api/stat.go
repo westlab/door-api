@@ -6,6 +6,7 @@ import (
 )
 
 // GetStatInfo provides statical information of traffic
-func GetStatInfo(c *echo.Context) error {
+func GetStatInfo(c echo.Context) error {
 	// TODO: get statistic informaiton
+	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }
