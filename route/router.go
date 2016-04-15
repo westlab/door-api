@@ -6,6 +6,7 @@ import (
 	"github.com/westlab/door-api/api"
 )
 
+// Init initialize door api
 func Init() *echo.Echo {
 	e := echo.New()
 
