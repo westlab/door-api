@@ -1,0 +1,10 @@
+package: github.com/westlab/door-api
+import:
+- package: github.com/go-sql-driver/mysql
+- package: github.com/gocraft/dbr
+  subpackages:
+  - dialect
+- package: github.com/labstack/echo
+  subpackages:
+  - engine/standard
+  - middleware
