@@ -41,14 +41,14 @@ CREATE TABLE IF NOT EXISTS word (
 --   id int(20) NOT NULL AUTO_INCREMENT,
 --   src_ip varchar(255) NOT NULL,
 --   dst_ip varchar(255) NOT NULL,
---   src_mac_addr varchar(255) NOT NULL,
---   dst_mac_addr varchar(255) NOT NULL,
+--   src_mac varchar(255) NOT NULL,
+--   dst_mac varchar(255) NOT NULL,
 --   src_port int(11) NOT NULL,
 --   dst_port int(11) NOT NULL,
 --   stream_id int(20) NOT NULL,
 --   rule_id int(11) NOT NULL,
 --   rule varchar(255) NOT NULL,
---   timestamp datetime NOT NULL
+--   timestamp timestamp NOT NULL
 --   data text,
 --   PRIMARY KEY (id)
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
