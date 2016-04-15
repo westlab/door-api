@@ -1,9 +1,14 @@
 package conf
 
 const (
-	USER     string = "root"
+	// USER is username for db
+	USER string = "root"
+	// PASSWORD is password for db
 	PASSWORD string = "foo"
-	DB       string = "door"
-	HOST     string = "localhost"
-	PORT     string = "3306"
+	// DB is name of db
+	DB string = "door"
+	// HOST is host of db
+	HOST string = "localhost"
+	// PORT is  port number of db
+	PORT string = "3306"
 )

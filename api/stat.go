@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// GetStatInfo provides statical information of traffic
 func GetStatInfo(c *echo.Context) error {
 	// TODO: get statistic informaiton
 }
