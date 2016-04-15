@@ -1,5 +1,5 @@
 hash: 5f473a8d45fc948b6884f1379d20276ee8afb45ebc731aa2f98e339371158507
-updated: 2016-04-15T22:11:24.550111503+09:00
+updated: 2016-04-16T00:14:55.598617436+09:00
 imports:
 - name: github.com/go-sql-driver/mysql
   version: 7ebe0a500653eeb1859664bed5e48dec1e164e73
@@ -24,17 +24,12 @@ imports:
   version: 56b76bdf51f7708750eac80fa38b952bb9f32639
 - name: github.com/valyala/fasttemplate
   version: 3b874956e03f1636d171bda64b130f9135f42cff
-- name: github.com/westlab/door-api
-  version: 2f6aad04faa2c1b5ec272ffc30dc02e0dce654be
-  subpackages:
-  - route
-  - api
 - name: golang.org/x/net
   version: fb93926129b8ec0056f2f458b1f519654814edf0
   subpackages:
   - context
 - name: golang.org/x/sys
-  version: 324e1375807370c3934e14f3a97e7d160832f6b4
+  version: f64b50fbea64174967a8882830d621a18ee1548e
   subpackages:
   - unix
 devImports: []
