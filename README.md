@@ -32,7 +32,7 @@ glide install
 
 Test are executed in circleci.
 
-#### Run test locallly
+#### Run test locally
 You may need to export GOROOT and ignore vendor directory. Go does not automatically ignore vendor directory nor provides flags for ignoring this directory.
 See discussion: https://github.com/golang/go/issues/11659
 
