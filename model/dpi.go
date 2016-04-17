@@ -1,6 +1,8 @@
 package model
 
 import (
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -18,4 +20,21 @@ type DPI struct {
 	Rule      string    `db:"rule" json:"rule"`
 	Timestamp time.Time `db:"timestamp" json:"timestamp"`
 	Data      string    `db:"data" json:"data"`
+}
+
+// ToKey returns key generated from ips and ports
+func (d *DPI) ToKey() string {
+	var portStr string
+	var ipStr string
+	if d.SrcPort <= d.DstPort {
+		portStr = strconv.Itoa(int(d.SrcPort)) + strconv.Itoa(int(d.DstPort))
+	} else {
+		portStr = strconv.Itoa(int(d.DstPort)) + strconv.Itoa(int(d.SrcPort))
+	}
+	if strings.Compare(d.SrcIP, d.DstIP) == -1 {
+		ipStr = d.SrcIP + d.DstIP
+	} else {
+		ipStr = d.DstIP + d.SrcIP
+	}
+	return ipStr + portStr
 }
