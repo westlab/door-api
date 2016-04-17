@@ -19,3 +19,4 @@ test:
   override:
     - test -z "$(gofmt -s -l . | tee /dev/stderr)"
     - test -z "$(golint ./... | tee /dev/stderr)"
+    - go test
