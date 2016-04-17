@@ -8,3 +8,6 @@ import:
   subpackages:
   - engine/standard
   - middleware
+- package: github.com/stretchr/testify
+  subpackages:
+  - assert

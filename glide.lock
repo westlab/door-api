@@ -1,5 +1,5 @@
-hash: 5f473a8d45fc948b6884f1379d20276ee8afb45ebc731aa2f98e339371158507
-updated: 2016-04-16T00:14:55.598617436+09:00
+hash: 6c4bf968fa3ef8f69281cc030e08f073a4b9059c1bfe8ae7484b9b42bec452ec
+updated: 2016-04-18T03:48:35.569225643+09:00
 imports:
 - name: github.com/go-sql-driver/mysql
   version: 7ebe0a500653eeb1859664bed5e48dec1e164e73
@@ -22,6 +22,10 @@ imports:
   version: 9cbef7c35391cca05f15f8181dc0b18bc9736dbb
 - name: github.com/mattn/go-isatty
   version: 56b76bdf51f7708750eac80fa38b952bb9f32639
+- name: github.com/stretchr/testify
+  version: bcd9e3389dd03b0b668d11f4d462a6af6c2dfd60
+  subpackages:
+  - assert
 - name: github.com/valyala/fasttemplate
   version: 3b874956e03f1636d171bda64b130f9135f42cff
 - name: golang.org/x/net
