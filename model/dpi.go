@@ -2,11 +2,6 @@ package model
 
 import (
 	"time"
-
-	// lib for mysql
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/gocraft/dbr"
-	"github.com/gocraft/dbr/dialect"
 )
 
 // DPI is a model for storing Deep Packet Inspection Result

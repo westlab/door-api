@@ -1,10 +1,6 @@
 package model
 
 import (
-	// lib for mysql
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/gocraft/dbr"
-	"github.com/gocraft/dbr/dialect"
 	"strconv"
 )
 
@@ -16,13 +12,13 @@ type Meta struct {
 }
 
 // ToInt converts value to int64
-func (m *Meata) ToInt() int64 {
+func (m *Meta) ToInt() int {
 	i, _ := strconv.Atoi(m.Value)
 	return i
 }
 
 // ToBool converts value to bool
-func (m *Meata) ToBool() bool {
+func (m *Meta) ToBool() bool {
 	b, _ := strconv.ParseBool(m.Value)
 	return b
 }
