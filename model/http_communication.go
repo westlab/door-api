@@ -1,8 +1,6 @@
 package model
 
 import (
-	"strconv"
-	"strings"
 	"time"
 )
 
@@ -23,22 +21,5 @@ func (h *HTTPCommunication) URL() string {
 	if h.Host != "" && h.URI != "" {
 		return h.Host + h.URI
 	}
+	return ""
 }
-
-// ToKey
-// func (h *HTTPCommunication) ToKey() string {
-// 	var portStr string
-// 	var ipStr string
-//
-// 	if h.SrcPort <= h.DstPort {
-// 		portStr = strconv.Itoa(h.SrcPort) + strconv.Itoa(h.DstPort)
-// 	} else {
-// 		portStr = strcov.Itoa(h.DstPort) + strconv.Itoa(h.SrcPort)
-// 	}
-// 	if strings.Compare(h.SrcIP, h.DstPort) == -1 {
-// 		ipStr = h.SrcIP + h.DstIP
-// 	} else {
-// 		ipStr = h.DstIP + h.SrcIP
-// 	}
-// 	return ipStr + portStr
-// }

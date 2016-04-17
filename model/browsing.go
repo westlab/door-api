@@ -1,10 +1,6 @@
 package model
 
 import (
-	// lib for mysql
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/gocraft/dbr"
-	"github.com/gocraft/dbr/dialect"
 	"time"
 )
 
