@@ -12,9 +12,9 @@ type Meta struct {
 }
 
 // ToInt converts value to int64
-func (m *Meta) ToInt() int {
+func (m *Meta) ToInt() int64 {
 	i, _ := strconv.Atoi(m.Value)
-	return i
+	return int64(i)
 }
 
 // ToBool converts value to bool
