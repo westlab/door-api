@@ -23,3 +23,7 @@ func (h *HTTPCommunication) URL() string {
 	}
 	return ""
 }
+
+func GetIPRank() []Count {
+	// pa
+}
