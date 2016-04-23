@@ -12,6 +12,7 @@ import (
 
 // Word is a model of word to track frequency
 type Word struct {
+	ID    int64  `db:id json:"id"`
 	Name  string `db:"name" json:"name"`
 	Count int64  `db:"count" json:"count"`
 }

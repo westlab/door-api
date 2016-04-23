@@ -18,8 +18,9 @@ func UpdateBrowsing(c echo.Context) error {
 }
 
 // GetBrowsing get and search browsing record
-func GetBrowsing(c echo.Context) error {
+func GetBrowsings(c echo.Context) error {
 	// TODO: implement get browsing function
+	// call model.GetBrowsings
 	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }
 
@@ -33,5 +34,11 @@ func DeleteBrowsing(c echo.Context) error {
 // with fin grain manner.
 func GetBrowsingHistorgram(c echo.Context) error {
 	// TODO: implement get browsing histogram
+	return c.JSON(http.StatusOK, "{'hello': 'world'}")
+}
+
+func GetBrowsingByID(c echo.Context) error {
+	id := c.Param("id")
+	// call model.GetBrowsingByID
 	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }
