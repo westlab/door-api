@@ -28,6 +28,13 @@ func Init(c conf.Config) *echo.Echo {
 		v1.Put("/browsings/:id", api.UpdateBrowsing)
 		v1.Delete("/browsings/:id", api.DeleteBrowsing)
 
+		// meta
+		v1.Get("/meta", api.GetMeta)
+		v1.Get("/meta/:name", api.GetMetaByName)
+		v1.Post("/meta", api.CreateMeta)
+		v1.Put("/meta/:name", api.UpdateMeta)
+		v1.Delete("/meta/:name", api.DeleteMeta)
+
 		v1.Get("/browsing_histogram", api.GetBrowsingHistorgram)
 		v1.Get("/ip_rank", api.GetIPRank)
 		v1.Get("/domain_rank", api.GetDomainRank)
