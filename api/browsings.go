@@ -38,7 +38,8 @@ func GetBrowsingHistorgram(c echo.Context) error {
 }
 
 func GetBrowsingByID(c echo.Context) error {
-	id := c.Param("id")
 	// call model.GetBrowsingByID
+	// example: how to get URL or GET params
+	// id := c.Param("id")
 	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }

@@ -44,7 +44,7 @@ func (b *Browsing) Delete() {
 // GetBrowsingByID returns Browsing by id
 func GetBrowsingByID(id int64) Browsing {
 	// TODO: write sql code and load it to Browsing
-	return BrowsingTime{}
+	return Browsing{}
 }
 
 // GetBrowsings returns list of Browsing
@@ -56,5 +56,5 @@ func GetBrowsings(q string, size int64) []Browsing {
 	//
 	// size is a number of the result
 	var browsings []Browsing
-	return browsing
+	return browsings
 }
