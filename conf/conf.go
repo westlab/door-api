@@ -2,30 +2,54 @@ package conf
 
 import (
 	"fmt"
+	"log"
+
+	"github.com/pelletier/go-toml"
 )
 
-const (
-	// USER is username for db
-	USER string = "interop"
-	// PASSWORD is password for db
-	PASSWORD string = "interop"
-	// DB is name of db
-	DB string = "interop2016"
-	// HOST is host of db
-	HOST string = "localhost"
-	// PORT is  port number of db
-	PORT string = "3306"
-	// DBTYPE allows mysql and postgres
-	DBTYPE string = "mysql"
-)
+var conf *Config
 
-// Return DSN for local connection
-func GetDSN() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
-		USER, PASSWORD, HOST, PORT, DB,
-	)
+// Config for door application
+type Config struct {
+	DBUser     string
+	DBPassword string
+	DBHost     string
+	DBPort     int64
+	DBType     string
+	DBName     string
+	AppPort    int64
+	AppDebug   bool
 }
 
-func GetDBType() string {
-	return DBTYPE
+// New generate Config singleton
+func New(tomlFile string) *Config {
+	tomlConf, err := toml.LoadFile(tomlFile)
+	// Return error
+	if err != nil {
+		log.Println("Parsing config was failed ", err.Error())
+	}
+
+	conf = &Config{
+		DBUser:     tomlConf.Get("db.user").(string),
+		DBPassword: tomlConf.Get("db.password").(string),
+		DBHost:     tomlConf.Get("db.host").(string),
+		DBPort:     tomlConf.Get("db.port").(int64),
+		DBType:     tomlConf.Get("db.type").(string),
+		DBName:     tomlConf.Get("db.dbname").(string),
+		AppPort:    tomlConf.Get("app.port").(int64),
+		AppDebug:   tomlConf.Get("app.debug").(bool),
+	}
+	return conf
+}
+
+// GetConf returns Config singleton
+func GetConf() *Config {
+	return conf
+}
+
+// GetDSN returns DSN for db connection
+func (c *Config) GetDSN() string {
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s",
+		c.DBUser, c.DBPassword, c.DBHost, c.DBPort, c.DBName,
+	)
 }

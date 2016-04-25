@@ -2,12 +2,20 @@
 
 door-api is a rest server to provide Deep Packet Inspection obtained by DOOR.
 
+## How to run
+
+```
+glide install
+go build
+./door-api -f config.toml
+```
+
 
 See wiki for more details e.g database scheme, endpoint and so forth.
 
 ## Development
 
-1. Create below directory hierarchy.
+1 Create below directory hierarchy.
 
 ```
 $GOROOT/
@@ -22,7 +30,7 @@ mkdir -p src/github.com/westlab; cd src/github.com/westlab
 git clone git@github.com:westlab/door-api.git
 ```
 
-2. Download dependencies
+2 Download dependencies
 
 ```
 glide install
