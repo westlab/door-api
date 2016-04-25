@@ -20,10 +20,11 @@ func Init() *echo.Echo {
 	v1 := e.Group("/v1")
 	{
 		// browsing
-		v1.Get("/browsings", api.GetBrowsing)
+		v1.Get("/browsings/:id", api.GetBrowsingByID)
+		v1.Get("/browsings", api.GetBrowsings)
 		v1.Post("/browsings", api.CreateBrowsing)
-		v1.Put("/browsings", api.UpdateBrowsing)
-		v1.Delete("/browsings", api.DeleteBrowsing)
+		v1.Put("/browsings/:id", api.UpdateBrowsing)
+		v1.Delete("/browsings/:id", api.DeleteBrowsing)
 
 		v1.Get("/browsing_histogram", api.GetBrowsingHistorgram)
 		v1.Get("/ip_rank", api.GetIPRank)
