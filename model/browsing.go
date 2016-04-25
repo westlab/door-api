@@ -17,11 +17,12 @@ type Browsing struct {
 	BrowsingTime int64     `db:"browsing_time" json:"browsing_time"`
 	Title        string    `db:"title" json:"title"`
 	URL          string    `db:"url" json:"url"`
+	Domain       string    `db:"domain" json:"domain"`
 }
 
 // New creates a new instance of Browsing
 func New(SrcIP string, DstIP string, SrcPort int64, DstPort int64,
-	Download int64, BrowsingTime int64, Title string, URL string) Browsing {
+	Download int64, BrowsingTime int64, Title string, URL string, Domain string) Browsing {
 
 	return Browsing{}
 }
