@@ -17,6 +17,12 @@ func GetMeta(c echo.Context) error {
 	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }
 
+// GetMetaByName get a meta data by name
+func GetMetaByName(c echo.Context) error {
+	// TODO: Get Meta
+	return c.JSON(http.StatusOK, "{'hello': 'world'}")
+}
+
 // UpdateMeta updates meta data
 func UpdateMeta(c echo.Context) error {
 	// TODO: Update  Meta
