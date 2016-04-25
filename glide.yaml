@@ -12,3 +12,5 @@ import:
   subpackages:
   - assert
 - package: github.com/pelletier/go-toml
+  subpackages:
+  - '...'
