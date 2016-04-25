@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS browsing (
   dst_port int(11) NOT NULL,
   timestamp datetime NOT NULL,
   title text,
+  domain varchar(255),
   url text,
   created_at timestamp DEFAULT CURRENT_TIMESTAMP,
   browsing_time float,
@@ -13,6 +14,7 @@ CREATE TABLE IF NOT EXISTS browsing (
   PRIMARY KEY (id),
   KEY index_browsing_on_created_at (created_at),
   KEY index_browsing_on_src_ip (src_ip)
+  KEY index_browsing_on_domain (domain)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
