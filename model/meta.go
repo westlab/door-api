@@ -2,13 +2,14 @@ package model
 
 import (
 	"strconv"
+	"time"
 )
 
 // Meta is meta information for door api
 type Meta struct {
-	ID    int64  `db:"id" json:"json"`
-	Name  string `db:"name" json:"name"`
-	Value string `db:"value" json:"value"`
+	Name      string    `db:"name" json:"name"`
+	Value     string    `db:"value" json:"value"`
+	CreatedAt time.Time `db:created_at json:"created_at"`
 }
 
 // ToInt converts value to int64
