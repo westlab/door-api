@@ -3,15 +3,17 @@ package route
 import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+
 	"github.com/westlab/door-api/api"
+	"github.com/westlab/door-api/conf"
 )
 
 // Init initialize door api
-func Init() *echo.Echo {
+func Init(c conf.Config) *echo.Echo {
 	e := echo.New()
 
 	// Debug
-	e.SetDebug(true)
+	e.SetDebug(c.AppDebug)
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
