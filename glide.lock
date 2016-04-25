@@ -1,5 +1,5 @@
-hash: 6c4bf968fa3ef8f69281cc030e08f073a4b9059c1bfe8ae7484b9b42bec452ec
-updated: 2016-04-18T03:48:35.569225643+09:00
+hash: d8c40d69b3203d79dd21c23f3ca7e2e56adfaa15375e1a45dca1d24f6db88c2c
+updated: 2016-04-25T14:50:29.188752083+09:00
 imports:
 - name: github.com/go-sql-driver/mysql
   version: 7ebe0a500653eeb1859664bed5e48dec1e164e73
@@ -22,8 +22,10 @@ imports:
   version: 9cbef7c35391cca05f15f8181dc0b18bc9736dbb
 - name: github.com/mattn/go-isatty
   version: 56b76bdf51f7708750eac80fa38b952bb9f32639
+- name: github.com/pelletier/go-toml
+  version: 8e6ab94eec2ae84996ed00ec774b2e15c540d7f9
 - name: github.com/stretchr/testify
-  version: bcd9e3389dd03b0b668d11f4d462a6af6c2dfd60
+  version: c5d7a69bf8a2c9c374798160849c071093e41dd1
   subpackages:
   - assert
 - name: github.com/valyala/fasttemplate
