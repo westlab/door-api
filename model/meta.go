@@ -2,7 +2,6 @@ package model
 
 import (
 	"strconv"
-	"time"
 
 	// lib for mysql
 	_ "github.com/go-sql-driver/mysql"
