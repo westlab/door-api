@@ -68,10 +68,22 @@ CREATE TABLE `meta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `value` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_meta_on_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `meta` WRITE;
+/*!40000 ALTER TABLE `meta` DISABLE KEYS */;
+
+INSERT INTO `meta` (`id`, `name`, `value`, `created_at`)
+VALUES
+	(1,'door-version','1.0','2016-04-01 00:00:00'),
+	(2,'door-last-update','2016-04-02 00:00:00','2016-04-03 00:00:00'),
+	(3,'door-version-new','2.0','2016-04-03 00:00:00');
+
+/*!40000 ALTER TABLE `meta` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table word
