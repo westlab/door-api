@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"strconv"
 
 	// lib for mysql
@@ -26,6 +27,15 @@ func (m *Meta) ToInt() int64 {
 func (m *Meta) ToBool() bool {
 	b, _ := strconv.ParseBool(m.Value)
 	return b
+}
+
+// Override MarshalJSON
+func (m *Meta) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(
+		"{\"name\":\"%s\", \"value\":\"%s\", \"created_at\":\"%s\"}",
+		m.Name,
+		m.Value,
+		m.CreatedAt.Time.Format("2006-01-02 15:04:05"))), nil
 }
 
 // NewMeta creates a new Meta

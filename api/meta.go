@@ -22,13 +22,10 @@ func GetMeta(c echo.Context) error {
 
 // GetMetaByName get a meta data by name
 func GetMetaByName(c echo.Context) error {
-	// TODO: Get Meta
-
 	name := c.Param("name")
 	m := model.SelectSingleMeta(name)
 	if m == nil {
 		return c.JSONBlob(http.StatusOK, []byte("{}"))
-		//return c.JSON(http.StatusOK, )
 	}
 	return c.JSON(http.StatusOK, m)
 }
