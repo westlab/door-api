@@ -1,8 +1,11 @@
 package api
 
 import (
-	"github.com/labstack/echo"
 	"net/http"
+
+	"github.com/labstack/echo"
+
+	"github.com/westlab/door-api/model"
 )
 
 // CreateMeta creates meta data
@@ -19,8 +22,12 @@ func GetMeta(c echo.Context) error {
 
 // GetMetaByName get a meta data by name
 func GetMetaByName(c echo.Context) error {
-	// TODO: Get Meta
-	return c.JSON(http.StatusOK, "{'hello': 'world'}")
+	name := c.Param("name")
+	m := model.SelectSingleMeta(name)
+	if m == nil {
+		return c.JSONBlob(http.StatusOK, []byte("{}"))
+	}
+	return c.JSON(http.StatusOK, m)
 }
 
 // UpdateMeta updates meta data

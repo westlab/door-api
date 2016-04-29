@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS meta (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
   value text,
+  created_at timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY unique_meta_on_name (name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
