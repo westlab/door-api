@@ -1,0 +1,18 @@
+---
+# This playbook will make development environment
+
+- name: mkdir $GOROOT/src/github.com/westlab/door-api
+  file: path=/usr/local/go/src/github.com/westlab/door-api state=directory owner=vagrant group=vagrant mode=0755
+
+      #
+  # does not work belows (I guess $GOPATH related...)
+  #
+  #- name: get go modules
+  #  command: go get {{ item }}
+  #  with_items:
+  #    - github.com/Masterminds/glide
+  #
+  #- name: install go modules
+  #  command: go install {{ item }}
+  #  with_items:
+  #    - github.com/Masterminds/glide
