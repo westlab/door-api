@@ -15,7 +15,6 @@
   become: True
 
   roles:
-    - web
     - db
     - joshualund.golang
     - dev

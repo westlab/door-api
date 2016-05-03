@@ -11,3 +11,6 @@
    - git
    - zsh
    - wget
+
+- name: Disable SELinux
+  selinux: state=disabled
