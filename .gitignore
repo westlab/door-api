@@ -22,3 +22,16 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+*.swp
+
+# vendoring
+vendor
+
+# binary
+door-api
+
+# provisioning
+.vagrant
+.python-version
+site.retry

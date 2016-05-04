@@ -1,10 +1,6 @@
 package model
 
 import (
-	// lib for mysql
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/gocraft/dbr"
-	"github.com/gocraft/dbr/dialect"
 	"time"
 )
 
@@ -21,4 +17,45 @@ type Browsing struct {
 	BrowsingTime int64     `db:"browsing_time" json:"browsing_time"`
 	Title        string    `db:"title" json:"title"`
 	URL          string    `db:"url" json:"url"`
+	Domain       string    `db:"domain" json:"domain"`
+}
+
+// New creates a new instance of Browsing
+func New(SrcIP string, DstIP string, SrcPort int64, DstPort int64,
+	Download int64, BrowsingTime int64, Title string, URL string, Domain string) Browsing {
+
+	return Browsing{}
+}
+
+// Save saves browsing into db
+func (b *Browsing) Save() {
+	// TODO: write sql to save browsing to db
+}
+
+// Update updates browsing in db
+func (b *Browsing) Update() {
+	// TODO: write sql to update browsing
+}
+
+// Delete deletes browsing from db
+func (b *Browsing) Delete() {
+	// TODO: write sql to delete browsing
+}
+
+// GetBrowsingByID returns Browsing by id
+func GetBrowsingByID(id int64) Browsing {
+	// TODO: write sql code and load it to Browsing
+	return Browsing{}
+}
+
+// GetBrowsings returns list of Browsing
+func GetBrowsings(q string, size int64) []Browsing {
+	// TODO: write sql code and load it to the array of Browsing
+	// params:
+	// q is a search sring and search title, url, src_ip, dst_ip, src_port, dst_port
+	// with regular expression
+	//
+	// size is a number of the result
+	var browsings []Browsing
+	return browsings
 }

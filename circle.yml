@@ -1,6 +1,6 @@
 machine:
   pre:
-    - curl -o go.tar.gz -sL https://golang.org/dl/go1.6.linux-amd64.tar.gz
+    - curl -o go.tar.gz -sL https://golang.org/dl/go1.6.2.linux-amd64.tar.gz
     - sudo rm -rf /usr/local/go
     - sudo tar -C /usr/local -xzf go.tar.gz
     - sudo chmod a+w /usr/local/go/src/
@@ -11,11 +11,11 @@ dependencies:
     - go get github.com/go-sql-driver/mysql
     - go get github.com/gocraft/dbr
     - go get github.com/labstack/echo
-    - go get github.com/westlab/door-api
 
 test:
   pre:
     - go version
   override:
     - test -z "$(gofmt -s -l . | tee /dev/stderr)"
-    - test -z "$(golint ./... | tee /dev/stderr)"
+    - test -z "$(golint $(find . *.go | grep -v test) | tee /dev/stderr)"
+    - go test ./...

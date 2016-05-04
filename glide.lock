@@ -1,0 +1,45 @@
+hash: 032bbf33419e93da7a7585654ceb9c20e62a83abd9a3adb459ebe090fe1cf1e2
+updated: 2016-04-25T16:29:54.322423097+09:00
+imports:
+- name: github.com/go-sql-driver/mysql
+  version: 7ebe0a500653eeb1859664bed5e48dec1e164e73
+- name: github.com/gocraft/dbr
+  version: 78b5b74da0b8bcbe167cc4c55d3383b6893848c3
+  subpackages:
+  - dialect
+- name: github.com/labstack/echo
+  version: 288164d00a1c6f256c2655e96476be4b65f7629c
+  subpackages:
+  - engine/standard
+  - middleware
+  - engine
+- name: github.com/labstack/gommon
+  version: f8343700e8769e645b5f9949ec2e3a69f9fd71eb
+  subpackages:
+  - log
+  - color
+- name: github.com/mattn/go-colorable
+  version: 9cbef7c35391cca05f15f8181dc0b18bc9736dbb
+- name: github.com/mattn/go-isatty
+  version: 56b76bdf51f7708750eac80fa38b952bb9f32639
+- name: github.com/pelletier/go-buffruneio
+  version: df1e16fde7fc330a0ca68167c23bf7ed6ac31d6d
+- name: github.com/pelletier/go-toml
+  version: 8e6ab94eec2ae84996ed00ec774b2e15c540d7f9
+  subpackages:
+  - '...'
+- name: github.com/stretchr/testify
+  version: c5d7a69bf8a2c9c374798160849c071093e41dd1
+  subpackages:
+  - assert
+- name: github.com/valyala/fasttemplate
+  version: 3b874956e03f1636d171bda64b130f9135f42cff
+- name: golang.org/x/net
+  version: fb93926129b8ec0056f2f458b1f519654814edf0
+  subpackages:
+  - context
+- name: golang.org/x/sys
+  version: f64b50fbea64174967a8882830d621a18ee1548e
+  subpackages:
+  - unix
+devImports: []
