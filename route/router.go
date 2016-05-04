@@ -17,6 +17,7 @@ func Init(c conf.Config) *echo.Echo {
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
 
 	// Routes
 	v1 := e.Group("/v1")
