@@ -1,8 +1,12 @@
 package api
 
 import (
-	"github.com/labstack/echo"
 	"net/http"
+	"strconv"
+
+	"github.com/labstack/echo"
+
+	"github.com/westlab/door-api/model"
 )
 
 // CreateBrowsing cretes browsing record
@@ -19,9 +23,9 @@ func UpdateBrowsing(c echo.Context) error {
 
 // GetBrowsing get and search browsing record
 func GetBrowsings(c echo.Context) error {
-	// TODO: implement get browsing function
-	// call model.GetBrowsings
-	return c.JSON(http.StatusOK, "{'hello': 'world'}")
+	q := c.QueryParam("q")
+	size, _ := strconv.Atoi(c.QueryParam("size"))
+	return c.JSON(http.StatusOK, model.GetBrowsings(q, int64(size)))
 }
 
 // DeleteBrowsing delete browsing record
