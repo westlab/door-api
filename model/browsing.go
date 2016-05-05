@@ -78,29 +78,41 @@ func GetBrowsings(q string, size int64) []Browsing {
 	//
 	// size is a number of the result
 	var browsings []Browsing
+	var sql string
 	conf := conf.GetConf()
 
 	if size == 0 {
-		size = 10000
+		size = 100
 	}
 
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
-	sql := fmt.Sprintf(`
-		SELECT id, src_ip, dst_ip, src_port, dst_port, timestamp, created_at, download, browsing_time, title, url, domain FROM browsing
-		WHERE browsing_time IS NOT NULL
-			AND (
-				src_ip REGEXP '%s'
-				OR dst_ip REGEXP '%s'
-				OR src_port REGEXP '%s'
-				OR dst_port REGEXP '%s'
-				OR title REGEXP '%s'
-				OR url REGEXP '%s'
-			)
-		ORDER BY id DESC
-		LIMIT %d;
-		`, q, q, q, q, q, q,
-		size)
+	if q != "" {
+		sql = fmt.Sprintf(`
+			SELECT id, src_ip, dst_ip, src_port, dst_port, timestamp, created_at, download, browsing_time, title, url, domain
+			FROM browsing
+			WHERE browsing_time IS NOT NULL
+				AND (
+					src_ip REGEXP '%s'
+					OR dst_ip REGEXP '%s'
+					OR src_port REGEXP '%s'
+					OR dst_port REGEXP '%s'
+					OR title REGEXP '%s'
+					OR url REGEXP '%s'
+				)
+			ORDER BY id DESC
+			LIMIT %d;
+			`, q, q, q, q, q, q,
+			size)
+	} else {
+		sql = fmt.Sprintf(`
+			SELECT id, src_ip, dst_ip, src_port, dst_port, timestamp, created_at, download, browsing_time, title, url, domain
+			FROM browsing
+			WHERE browsing_time IS NOT NULL
+			ORDER BY id DESC
+			LIMIT %d;
+			`, size)
+	}
 	sess.SelectBySql(sql).LoadStruct(&browsings)
 	return browsings
 }
