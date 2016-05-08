@@ -41,10 +41,9 @@ func GetBrowsingHistorgram(c echo.Context) error {
 	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }
 
-// GetBrowsingByID gets browsing by id
-func GetBrowsingByID(c echo.Context) error {
+func GetBrowsingBySrcIP(c echo.Context) error {
 	// call model.GetBrowsingByID
 	// example: how to get URL or GET params
-	// id := c.Param("id")
-	return c.JSON(http.StatusOK, "{'hello': 'world'}")
+	src_ip := c.Param("src_ip")
+	return c.JSON(http.StatusOK, model.GetBrowsingBySrcIP(src_ip))
 }

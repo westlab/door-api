@@ -88,6 +88,23 @@ func GetBrowsingByID(id int64) Browsing {
 	return Browsing{}
 }
 
+func GetBrowsingBySrcIP(srcIP string) []Browsing {
+	var browsings []Browsing
+	conf := conf.GetConf()
+	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	sess := conn.NewSession(nil)
+
+	sess.Select("*").From("browsing").
+		Where(
+			dbr.And(
+				dbr.Eq("src_ip", srcIP),
+				dbr.Neq("browsing_time", nil),
+			)).
+		OrderDesc("timestamp").
+		Load(&browsings)
+	return browsings
+}
+
 // GetBrowsings returns list of Browsing
 func GetBrowsings(q string, size int64) []Browsing {
 	// params:
@@ -131,6 +148,6 @@ func GetBrowsings(q string, size int64) []Browsing {
 			LIMIT %d;
 			`, size)
 	}
-	sess.SelectBySql(sql).LoadStruct(&browsings)
+	sess.SelectBySql(sql).Load(&browsings)
 	return browsings
 }

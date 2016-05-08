@@ -23,7 +23,7 @@ func Init(c conf.Config) *echo.Echo {
 	v1 := e.Group("/v1")
 	{
 		// browsing
-		v1.Get("/browsings/:id", api.GetBrowsingByID)
+		v1.Get("/browsings/:src_ip", api.GetBrowsingBySrcIP)
 		v1.Get("/browsings", api.GetBrowsings)
 		v1.Post("/browsings", api.CreateBrowsing)
 		v1.Put("/browsings/:id", api.UpdateBrowsing)
