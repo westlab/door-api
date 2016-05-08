@@ -40,3 +40,8 @@ func (h *HTTPCommunication) IsValid(contentType string) bool {
 	}
 	return false
 }
+
+// ToBrowsing converts HTTPCommunication to Browsing
+func (h *HTTPCommunication) ToBrowsing() *Browsing {
+	return NewBrowsing(h.SrcIP, h.DstIP, h.SrcPort, h.DstPort, 0, 0, h.Title, h.URL(), h.Host, h.Time)
+}

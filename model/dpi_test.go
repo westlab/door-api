@@ -66,7 +66,7 @@ func TestParseData(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, "/foo/bar/baz", r)
 
-	d.Rule = "HOST:"
+	d.Rule = "Host:"
 	d.Data = " google.com\r\nFrom: user@example.com"
 	r, err = d.ParseData()
 	assert.Equal(t, nil, err)
@@ -99,4 +99,19 @@ func TestToHTTPCommunication(t *testing.T) {
 	assert.Equal(t, tc.SrcPort, d.SrcPort)
 	assert.Equal(t, tc.DstIP, d.DstIP)
 	assert.Equal(t, tc.DstPort, d.DstPort)
+
+	d.Rule = "Host:"
+	d.Data = " google.com\r\nFrom: user@example.com"
+	tc = d.ToHTTPCommunication()
+	assert.Equal(t, tc.Host, "google.com")
+
+	d.Rule = "Content-Type:"
+	d.Data = " application/json \r\nFrom: user@example.com"
+	tc = d.ToHTTPCommunication()
+	assert.Equal(t, tc.ContentType, "application/json")
+
+	d.Rule = "<title"
+	d.Data = "> westlab </title><foo>bar</foo>"
+	tc = d.ToHTTPCommunication()
+	assert.Equal(t, tc.Title, "westlab")
 }

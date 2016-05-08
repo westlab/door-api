@@ -48,9 +48,9 @@ func (d *DPI) ToHTTPCommunication() *HTTPCommunication {
 	switch d.Rule {
 	case "GET":
 		tc.URI = data
-	case "HOST:":
+	case "Host:":
 		tc.Host = data
-	case "Content-Type":
+	case "Content-Type:":
 		tc.ContentType = data
 	case "<title":
 		tc.Title = data
@@ -70,7 +70,7 @@ func (d *DPI) ParseData() (string, error) {
 	switch d.Rule {
 	case "GET":
 		return parseGET(d.Data)
-	case "HOST:":
+	case "Host:":
 		return parseHOST(d.Data)
 	case "Content-Type:":
 		return parseContentType(d.Data)
