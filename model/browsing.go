@@ -2,6 +2,8 @@ package model
 
 import (
 	"fmt"
+	"log"
+	"time"
 
 	// lib for mysql
 	_ "github.com/go-sql-driver/mysql"
@@ -26,15 +28,30 @@ type Browsing struct {
 }
 
 // New creates a new instance of Browsing
-func New(SrcIP string, DstIP string, SrcPort int64, DstPort int64,
-	Download int64, BrowsingTime int64, Title string, URL string, Domain string) Browsing {
+func NewBrowsing(SrcIP string, DstIP string, SrcPort int64, DstPort int64,
+	Download int64, BrowsingTime int64, Title string, URL string, Domain string,
+	Timestamp time.Time) *Browsing {
+	nullTime := dbr.NullTime{Time: Timestamp}
+	b := Browsing{SrcIP: SrcIP, DstIP: DstIP, SrcPort: SrcPort, DstPort: DstPort,
+		Download: Download, BrowsingTime: BrowsingTime, Title: Title, URL: URL,
+		Domain: Domain, Timestamp: nullTime}
 
-	return Browsing{}
+	return &b
 }
 
 // Save saves browsing into db
 func (b *Browsing) Save() {
-	// TODO: write sql to save browsing to db
+	conf := conf.GetConf()
+	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	sess := conn.NewSession(nil)
+	_, err := sess.InsertInto("door_meta").
+		Columns("src_ip", "dst_ip", "src_port", "dst_port",
+			"timestamp", "download", "browsing_time", "title", "url", "domain").
+		Record(*b).
+		Exec()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 // Update updates browsing in db
@@ -47,6 +64,7 @@ func (b *Browsing) Delete() {
 	// TODO: write sql to delete browsing
 }
 
+// MarshalJSON override MarshalJSON for formating json
 func (b *Browsing) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf(
 		"{\"id\":\"%d\", \"src_ip\":\"%s\", \"dst_ip\":\"%s\", \"src_port\":\"%d\", \"dst_port\":\"%d\", \"timestamp\":\"%s\", \"created_at\":\"%s\", \"download\":\"%d\", \"browsing_time\":\"%d\", \"title\":\"%s\", \"url\":\"%s\", \"domain\":\"%s\"}",

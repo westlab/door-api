@@ -21,7 +21,7 @@ func UpdateBrowsing(c echo.Context) error {
 	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }
 
-// GetBrowsing get and search browsing record
+// GetBrowsings get and search browsing record
 func GetBrowsings(c echo.Context) error {
 	q := c.QueryParam("q")
 	size, _ := strconv.Atoi(c.QueryParam("size"))
@@ -41,6 +41,7 @@ func GetBrowsingHistorgram(c echo.Context) error {
 	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }
 
+// GetBrowsingByID gets browsing by id
 func GetBrowsingByID(c echo.Context) error {
 	// call model.GetBrowsingByID
 	// example: how to get URL or GET params
