@@ -100,7 +100,7 @@ func GetBrowsingBySrcIP(srcIP string) []Browsing {
 				dbr.Eq("src_ip", srcIP),
 				dbr.Neq("browsing_time", nil),
 			)).
-		OrderDesc("timestamp").
+		OrderDir("timestamp", true).
 		Load(&browsings)
 	return browsings
 }
