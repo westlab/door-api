@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	// lib for mysql
@@ -150,4 +151,25 @@ func GetBrowsings(q string, size int64) []Browsing {
 	}
 	sess.SelectBySql(sql).Load(&browsings)
 	return browsings
+}
+
+// GetHistogram
+// SELECT
+// {count_condition}
+// FROM (SELECT timestamp FROM browsing_history WHERE timestamp > '{max_time}') AS timestamp_groups
+// """
+//
+// HISTOGRAM_COUNT_FMT = """\
+// COUNT(CASE WHEN timestamp >= '{t_from}' AND timestamp < '{to}' THEN 1 END) AS '{label}'
+// """
+func GetHistogram() []Count {
+	counts := ""
+	since := time.Now()
+	countTemp = "COUNT(CASE WHEN timestamp >= '%s' AND timestamp < '%s' THEN 1 END) AS '%s'"
+	sql := fmt.Sprintf(`
+		SELECT
+		%s
+		FROM (SELECT timestamp FROM browsing WHERE timestamp > '%s') AS timestamp_groups
+	`, counts, since)
+
 }
