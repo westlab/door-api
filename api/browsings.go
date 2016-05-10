@@ -36,9 +36,17 @@ func DeleteBrowsing(c echo.Context) error {
 
 // GetBrowsingHistorgram get browsing histogram in specific time window
 // with fin grain manner.
-func GetBrowsingHistorgram(c echo.Context) error {
-	// TODO: implement get browsing histogram
-	return c.JSON(http.StatusOK, "{'hello': 'world'}")
+func GetBrowsingHistogram(c echo.Context) error {
+	window, _ := strconv.Atoi(c.Param("window"))
+	duration, _ := strconv.Atoi(c.Param("duration"))
+	if window == 0 {
+		window = 10
+	}
+	if duration == 0 {
+		duration = 300
+	}
+	return c.JSON(http.StatusOK,
+		model.GetBrowsingHistogram(int64(duration), int64(window)))
 }
 
 // GetBrowsingBySrcIP gets browsing by src ip

@@ -154,8 +154,10 @@ func GetBrowsings(q string, size int64) []Browsing {
 	return browsings
 }
 
-// GetHistogram
-func GetHistogram(duraiton int64, window int64) []Count {
+// GetBrowsingHistogram return histogram from browsing
+// duration is span from now [minute]
+// window is window [minite]
+func GetBrowsingHistogram(duraiton int64, window int64) []Count {
 	var counts []Count
 	view := "browsing_histogram"
 	start := time.Now().Add(-time.Duration(duraiton) * time.Minute)
@@ -166,6 +168,9 @@ func GetHistogram(duraiton int64, window int64) []Count {
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 
+	// view is not necessary because we can get value and know type and column name
+	// of result. We can create go object in clien side
+	// But we want to use something new nad fun.
 	// create or replace view
 	viewSQL := fmt.Sprintf(`
 	    CREATE OR REPLACE VIEW %s AS
