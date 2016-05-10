@@ -36,7 +36,7 @@ func Init(c conf.Config) *echo.Echo {
 		v1.Put("/meta/:name", api.UpdateMeta)
 		v1.Delete("/meta/:name", api.DeleteMeta)
 
-		v1.Get("/browsing_histogram", api.GetBrowsingHistorgram)
+		v1.Get("/browsing_histogram", api.GetBrowsingHistogram)
 		v1.Get("/ip_rank", api.GetIPRank)
 		v1.Get("/domain_rank", api.GetDomainRank)
 		v1.Get("/word_rank", api.GetWordRank)
