@@ -24,5 +24,7 @@ func GetWordRank(c echo.Context) error {
 
 // GetDomainRank provides ranking of frequent domain in specific time window
 func GetDomainRank(c echo.Context) error {
-	return c.JSON(http.StatusOK, "{'hello': 'world'}")
+	duration, _ := strconv.Atoi(c.Param("duration"))
+	return c.JSON(http.StatusOK,
+		model.GetBrowsingRank("domain", int64(duration)))
 }
