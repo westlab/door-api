@@ -237,7 +237,7 @@ func GetBrowsingRank(column string, duration int64) []Count {
 	conf := conf.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
-	from := time.Now().Add(-time.DUration(duraiton))
+	from := time.Now().Add(-time.Duration(duration))
 	sql := fmt.Sprintf(`
 		SELECT B.name AS name, SUM(B.%s) AS count
 		FROM browsing AS B
