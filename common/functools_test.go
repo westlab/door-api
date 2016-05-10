@@ -18,8 +18,8 @@ func TestZipTime(t *testing.T) {
 	timeZip := ZipTime(s1, s2)
 
 	assert.Equal(t, 10, len(timeZip))
-	assert.Equal(t, timeZip[0].x, timeZip[0].y)
-	assert.Equal(t, timeZip[9].x, timeZip[9].y)
+	assert.Equal(t, timeZip[0].X, timeZip[0].Y)
+	assert.Equal(t, timeZip[9].X, timeZip[9].Y)
 
 	s3 := make([]time.Time, 5)
 	for i := 0; i < len(s3); i++ {
@@ -28,8 +28,8 @@ func TestZipTime(t *testing.T) {
 	timeZip = ZipTime(s2, s3)
 
 	assert.Equal(t, 5, len(timeZip))
-	assert.Equal(t, timeZip[0].x, timeZip[0].y)
-	assert.Equal(t, timeZip[4].x, timeZip[4].y)
+	assert.Equal(t, timeZip[0].X, timeZip[0].Y)
+	assert.Equal(t, timeZip[4].X, timeZip[4].Y)
 }
 
 func TestPairwiseTime(t *testing.T) {
@@ -41,5 +41,5 @@ func TestPairwiseTime(t *testing.T) {
 
 	timePair := PairwiseTime(s1)
 	assert.Equal(t, 9, len(timePair))
-	assert.Equal(t, timePair[0].y, timePair[1].x)
+	assert.Equal(t, timePair[0].Y, timePair[1].X)
 }

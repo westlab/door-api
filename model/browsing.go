@@ -9,6 +9,7 @@ import (
 	// lib for mysql
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gocraft/dbr"
+	"github.com/westlab/door-api/common"
 	"github.com/westlab/door-api/conf"
 )
 
@@ -154,22 +155,79 @@ func GetBrowsings(q string, size int64) []Browsing {
 }
 
 // GetHistogram
-// SELECT
-// {count_condition}
-// FROM (SELECT timestamp FROM browsing_history WHERE timestamp > '{max_time}') AS timestamp_groups
-// """
-//
-// HISTOGRAM_COUNT_FMT = """\
-// COUNT(CASE WHEN timestamp >= '{t_from}' AND timestamp < '{to}' THEN 1 END) AS '{label}'
-// """
-func GetHistogram() []Count {
-	counts := ""
-	since := time.Now()
-	countTemp = "COUNT(CASE WHEN timestamp >= '%s' AND timestamp < '%s' THEN 1 END) AS '%s'"
-	sql := fmt.Sprintf(`
+func GetHistogram(duraiton int64, window int64) []Count {
+	var counts []Count
+	view := "browsing_histogram"
+	start := time.Now().Add(-time.Duration(duraiton) * time.Minute)
+	windows := makeHistogramWindow(start, time.Now(), int64(window))
+	countCase := makeCountCase(windows)
+
+	conf := conf.GetConf()
+	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	sess := conn.NewSession(nil)
+
+	// create or replace view
+	viewSQL := fmt.Sprintf(`
+	    CREATE OR REPLACE VIEW %s AS
 		SELECT
 		%s
 		FROM (SELECT timestamp FROM browsing WHERE timestamp > '%s') AS timestamp_groups
-	`, counts, since)
+	`, view, countCase, start.Round(10*time.Minute).Format("2006-01-02 15:04:05"))
+	sess.Exec(viewSQL)
 
+	unpivots := unpivotHistogram(windows, view)
+	selectSQL := fmt.Sprintf(`
+		SELECT name, count FROM (
+			%s
+		) as unpivot_histogram
+	`, unpivots)
+	sess.SelectBySql(selectSQL).Load(&counts)
+	return counts
+}
+
+// makeCountCase
+// sql formatter
+func makeCountCase(windows []common.TimeTuple) string {
+	countTemp := "COUNT(CASE WHEN timestamp >= '%s' AND timestamp < '%s' THEN 1 END) AS '%s'"
+	num := len(windows)
+	countConditions := make([]string, num, num)
+	for i, timeTuple := range windows {
+		label := fmt.Sprintf("%d:%02d", timeTuple.X.Hour(), timeTuple.X.Minute())
+		countConditions[i] = fmt.Sprintf(
+			countTemp,
+			timeTuple.X.Format("2006-01-02 15:04:05"),
+			timeTuple.Y.Format("2006-01-02 15:04:05"),
+			label)
+	}
+	return strings.Join(countConditions, ",\n")
+}
+
+// histogramWindow returns window of histogram
+func makeHistogramWindow(start time.Time, end time.Time, window int64) []common.TimeTuple {
+	start = start.Round(10 * time.Minute)
+	end = end.Round(10 * time.Minute)
+	span := end.Sub(start)
+	windowMinute := time.Duration(window) * time.Minute
+	num := int64(span / windowMinute)
+	histogramWindow := make([]time.Time, num, num)
+
+	for i := 0; i < int(num); i++ {
+		histogramWindow[i] = start.Add(windowMinute * time.Duration(i))
+	}
+
+	return common.PairwiseTime(histogramWindow)
+}
+
+// unpivotHistogram unpivot table or view for count
+func unpivotHistogram(windows []common.TimeTuple, table string) string {
+	unpivotTemp := "SELECT '%s' AS name, `%s`.`%s` FROM `%s`"
+	num := len(windows)
+	unpivots := make([]string, num, num)
+
+	for i, timeTuple := range windows {
+		label := fmt.Sprintf("%d:%02d", timeTuple.X.Hour(), timeTuple.X.Minute())
+		unpivots[i] = fmt.Sprintf(unpivotTemp, label, table, label, table)
+	}
+
+	return strings.Join(unpivots, "\nUNION ALL\n")
 }

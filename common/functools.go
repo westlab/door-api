@@ -6,15 +6,13 @@ import (
 )
 
 type TimeTuple struct {
-	x, y time.Time
+	X, Y time.Time
 }
 
 // ZipTime performs python like zip
 func ZipTime(x, y []time.Time) []TimeTuple {
 	num := int64(math.Min(float64(len(x)), float64(len(y))))
-
 	r := make([]TimeTuple, num, num)
-
 	for i := 0; i < int(num); i++ {
 		r[i] = TimeTuple{x[i], y[i]}
 	}
