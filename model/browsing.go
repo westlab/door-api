@@ -231,3 +231,20 @@ func unpivotHistogram(windows []common.TimeTuple, table string) string {
 
 	return strings.Join(unpivots, "\nUNION ALL\n")
 }
+
+func GetBrowsingRank(column string, duration int64) []Count {
+	var counts []Count
+	conf := conf.GetConf()
+	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	sess := conn.NewSession(nil)
+	from := time.Now().Add(-time.DUration(duraiton))
+	sql := fmt.Sprintf(`
+		SELECT B.name AS name, SUM(B.%s) AS count
+		FROM browsing AS B
+		GROUP BY %s
+		ORDER BY count DESC
+		WHERE B.timestamp >= %s
+		`, column, column, from.Format("2015-04-01 11:24:00"))
+	sess.SelectBySql(sql).Load(&counts)
+	return counts
+}
