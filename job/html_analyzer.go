@@ -12,13 +12,13 @@ import (
 func DonwloadHTML(url string) (html string, err error) {
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Error(err)
+		log.Println(err)
 		return html, err
 	}
 	defer resp.Body.Close()
 	contents, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Error(err)
+		log.Println(err)
 		return html, err
 	}
 	html = string(contents)
