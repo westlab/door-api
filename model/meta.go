@@ -29,7 +29,7 @@ func (m *Meta) ToBool() bool {
 	return b
 }
 
-// Override MarshalJSON
+// MarshalJSON overrides MarshalJSON
 func (m *Meta) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf(
 		"{\"name\":\"%s\", \"value\":\"%s\", \"created_at\":\"%s\"}",
@@ -44,7 +44,7 @@ func NewMeta(name string, value string) Meta {
 	return Meta{}
 }
 
-// Select from table
+// SelectSingleMeta selects meta by name
 func SelectSingleMeta(name string) *Meta {
 	var m *Meta
 

@@ -84,12 +84,12 @@ func (d *DPI) ParseData() (string, error) {
 // parseGET parses HTTP GET request and extracts URI
 func parseGET(s string) (string, error) {
 	get := strings.SplitN(s, "\r\n", 2)
-	uriHttp := strings.TrimSpace(get[0])
-	idx := strings.Index(uriHttp, " ")
+	uriHTTP := strings.TrimSpace(get[0])
+	idx := strings.Index(uriHTTP, " ")
 	if idx == -1 {
-		return uriHttp, errors.New("URI is too long")
+		return uriHTTP, errors.New("URI is too long")
 	}
-	return uriHttp[:idx], nil
+	return uriHTTP[:idx], nil
 }
 
 // parseHOST parses HTTP Header and extracts HOST
@@ -113,7 +113,6 @@ func parseTitle(s string) (string, error) {
 	end := strings.Index(s, "</")
 	if end == -1 {
 		return strings.TrimSpace(s[first+1:]), nil
-	} else {
-		return strings.TrimSpace(s[first+1 : end]), nil
 	}
+	return strings.TrimSpace(s[first+1 : end]), nil
 }
