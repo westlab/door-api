@@ -1,5 +1,7 @@
 package common
 
+// ref: https://github.com/hishboy/gocommons/blob/master/lang/queue.go
+
 import (
 	"sync"
 	"testing"
