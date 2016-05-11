@@ -58,7 +58,7 @@ func TestMixedPushes(t *testing.T) {
 
 	val = q.Poll()
 	assert.Equal(t, 2, q.Len())
-	assert.Equal(t, val, 1)
+	assert.Equal(t, 1, val)
 
 	val = q.Poll()
 	assert.Equal(t, 1, q.Len())
