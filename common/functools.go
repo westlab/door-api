@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// TimeTuple is a tule which holds time.Time
 type TimeTuple struct {
 	X, Y time.Time
 }

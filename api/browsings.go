@@ -34,7 +34,7 @@ func DeleteBrowsing(c echo.Context) error {
 	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }
 
-// GetBrowsingHistorgram get browsing histogram in specific time window
+// GetBrowsingHistogram returns browsing histogram in specific time window
 // with fin grain manner.
 func GetBrowsingHistogram(c echo.Context) error {
 	window, _ := strconv.Atoi(c.Param("window"))

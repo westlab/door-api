@@ -1,11 +1,11 @@
 package job
 
 import (
-	_ "fmt"
 	"github.com/westlab/door-api/model"
 	"time"
 )
 
+// HTTPReconstructor is for reconstructing HTTP from packet
 type HTTPReconstructor struct {
 	repository map[string]*model.HTTPCommunication
 	gcTime     time.Time

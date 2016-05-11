@@ -17,5 +17,5 @@ test:
     - go version
   override:
     - test -z "$(gofmt -s -l . | tee /dev/stderr)"
-    - test -z "$(golint $(find . -name *.go | grep -v test) | tee /dev/stderr)"
+    - ./test/lint
     - go test -v ./...

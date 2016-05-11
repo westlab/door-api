@@ -29,7 +29,7 @@ type Browsing struct {
 	Domain       string       `db:"domain" json:"domain"`
 }
 
-// New creates a new instance of Browsing
+// NewBrowsing creates a new instance of Browsing
 func NewBrowsing(SrcIP string, DstIP string, SrcPort int64, DstPort int64,
 	Download int64, BrowsingTime int64, Title string, URL string, Domain string,
 	Timestamp time.Time) *Browsing {
@@ -90,6 +90,7 @@ func GetBrowsingByID(id int64) Browsing {
 	return Browsing{}
 }
 
+// GetBrowsingBySrcIP returns browsings filtered by src ip
 func GetBrowsingBySrcIP(srcIP string) []Browsing {
 	var browsings []Browsing
 	conf := conf.GetConf()
@@ -237,6 +238,7 @@ func unpivotHistogram(windows []common.TimeTuple, table string) string {
 	return strings.Join(unpivots, "\nUNION ALL\n")
 }
 
+// GetBrowsingRank retuns count of given column
 func GetBrowsingRank(column string, duration int64) []Count {
 	var counts []Count
 	conf := conf.GetConf()
