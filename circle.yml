@@ -17,5 +17,5 @@ test:
     - go version
   override:
     - test -z "$(gofmt -s -l . | tee /dev/stderr)"
-    - ./test/run_test
+    - ./test/lint
     - go test -v ./...

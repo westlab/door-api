@@ -6,16 +6,16 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOT="$( dirname "${DIR}" )"
 E=0
 
-pushd "${ROOT}"
-    for gofile in $(find . -type f -name '*.go' | grep -v test ); do
+pushd "${ROOT}" > /dev/null
+    for gofile in $(find . -type f -name '*.go' | grep -v 'test\|vendor' ); do
       R="$(golint "${gofile}")"
       if [ -n "$R" ]; then
           echo "$R"
           E=$((E+1))
       fi
     done
-popd
+popd > /dev/null
 
-if [ "$E" -gt 0 ] then
+if [ "$E" -gt 0 ]; then
     exit 1
 fi
