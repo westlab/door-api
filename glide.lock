@@ -1,5 +1,5 @@
 hash: 032bbf33419e93da7a7585654ceb9c20e62a83abd9a3adb459ebe090fe1cf1e2
-updated: 2016-04-25T16:29:54.322423097+09:00
+updated: 2016-05-11T09:57:50.232748999-04:00
 imports:
 - name: github.com/go-sql-driver/mysql
   version: 7ebe0a500653eeb1859664bed5e48dec1e164e73
@@ -7,6 +7,8 @@ imports:
   version: 78b5b74da0b8bcbe167cc4c55d3383b6893848c3
   subpackages:
   - dialect
+- name: github.com/kennygrant/sanitize
+  version: ce9fd1f6ce32afaa38b51feea32320fc8875e8e4
 - name: github.com/labstack/echo
   version: 288164d00a1c6f256c2655e96476be4b65f7629c
   subpackages:
@@ -38,6 +40,8 @@ imports:
   version: fb93926129b8ec0056f2f458b1f519654814edf0
   subpackages:
   - context
+  - html
+  - html/atom
 - name: golang.org/x/sys
   version: f64b50fbea64174967a8882830d621a18ee1548e
   subpackages:
