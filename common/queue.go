@@ -9,6 +9,7 @@ type queuenode struct {
 	next *queuenode
 }
 
+// Queue is a FIFO data structure
 type Queue struct {
 	head  *queuenode
 	tail  *queuenode
@@ -16,18 +17,21 @@ type Queue struct {
 	lock  *sync.Mutex
 }
 
+// NewQueue creates Queue
 func NewQueue() *Queue {
 	q := &Queue{}
 	q.lock = &sync.Mutex{}
 	return q
 }
 
+// Len returns length of Queue
 func (q *Queue) Len() int {
 	q.lock.Lock()
 	defer q.lock.Unlock()
 	return q.count
 }
 
+// Push pushes item to the Queue
 func (q *Queue) Push(item interface{}) {
 	q.lock.Lock()
 	defer q.lock.Unlock()
@@ -44,6 +48,7 @@ func (q *Queue) Push(item interface{}) {
 	q.count++
 }
 
+// Poll returns and removes the top item in Queue
 func (q *Queue) Poll() interface{} {
 	q.lock.Lock()
 	defer q.lock.Unlock()
@@ -63,6 +68,8 @@ func (q *Queue) Poll() interface{} {
 	return n.data
 }
 
+// Front returns the top item in Queue
+// This operation does NOT modify queue
 func (q *Queue) Front() interface{} {
 	q.lock.Lock()
 	defer q.lock.Unlock()
