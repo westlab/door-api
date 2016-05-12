@@ -1,5 +1,5 @@
 hash: 032bbf33419e93da7a7585654ceb9c20e62a83abd9a3adb459ebe090fe1cf1e2
-updated: 2016-05-11T09:57:50.232748999-04:00
+updated: 2016-05-12T07:02:43.20241176-04:00
 imports:
 - name: github.com/go-sql-driver/mysql
   version: 7ebe0a500653eeb1859664bed5e48dec1e164e73
@@ -7,6 +7,14 @@ imports:
   version: 78b5b74da0b8bcbe167cc4c55d3383b6893848c3
   subpackages:
   - dialect
+- name: github.com/ikawaha/kagome
+  version: 6ffadc18184c3d8d34978690c2e12f21dbae5294
+  subpackages:
+  - tokenizer
+  - internal/dic
+  - internal/lattice
+  - internal/da
+  - internal/dic/data
 - name: github.com/kennygrant/sanitize
   version: ce9fd1f6ce32afaa38b51feea32320fc8875e8e4
 - name: github.com/labstack/echo
