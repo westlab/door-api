@@ -1,8 +1,9 @@
 package job
 
 import (
-	"github.com/westlab/door-api/model"
 	"time"
+
+	"github.com/westlab/door-api/model"
 )
 
 // HTTPReconstructor is for reconstructing HTTP from packet

@@ -1,6 +1,7 @@
 package model
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"strings"
@@ -46,7 +47,7 @@ func (b *Browsing) Save() {
 	conf := conf.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
-	_, err := sess.InsertInto("door_meta").
+	_, err := sess.InsertInto("browsing").
 		Columns("src_ip", "dst_ip", "src_port", "dst_port",
 			"timestamp", "download", "browsing_time", "title", "url", "domain").
 		Record(*b).
@@ -57,8 +58,24 @@ func (b *Browsing) Save() {
 }
 
 // Update updates browsing in db
-func (b *Browsing) Update() {
-	// TODO: write sql to update browsing
+func (b *Browsing) Update() (result sql.Result, err error) {
+	conf := conf.GetConf()
+	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	sess := conn.NewSession(nil)
+
+	result, err = sess.Update("browsing").
+		Set("src_ip", b.SrcIP).
+		Set("dst_ip", b.DstIP).
+		Set("src_port", b.SrcPort).
+		Set("dst_port", b.DstPort).
+		Set("timestamp", b.Timestamp).
+		Set("download", b.Download).
+		Set("browsing_time", b.BrowsingTime).
+		Set("title", b.Title).
+		Set("domain", b.Domain).
+		Set("url", b.URL).
+		Where("id = ?", b.ID).
+		Exec()
 }
 
 // Delete deletes browsing from db
@@ -254,4 +271,30 @@ func GetBrowsingRank(column string, duration int64) []Count {
 		`, column, column, from.Format("2015-04-01 11:24:00"))
 	sess.SelectBySql(sql).Load(&counts)
 	return counts
+}
+
+func GetBrowsingAfterID(id int64, limit int64, hasBrowsingTime bool) []Browsing {
+	var browsings []Browsing
+	conf := conf.GetConf()
+	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	sess := conn.NewSession(nil)
+	if hasBrowsingTime {
+		condition := dbr.Gte("id", id)
+	} else {
+		condition := dbr.And(
+			dbr.Gte("id", id),
+			dbr.Neq("browsing_time", nil))
+	}
+
+	query := sess.Select("*").From("browsing").
+		Where(condition).
+		OrderDir("timestamp", true)
+
+	if limit > 0 {
+		query.Limit(limit)
+	}
+
+	query.Load(&browsings)
+
+	return browsings
 }
