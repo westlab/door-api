@@ -1,6 +1,7 @@
 package model
 
 import (
+	"database/sql"
 	"fmt"
 	"strconv"
 
@@ -18,15 +19,28 @@ type Meta struct {
 }
 
 // ToInt converts value to int64
-func (m *Meta) ToInt() int64 {
-	i, _ := strconv.Atoi(m.Value)
-	return int64(i)
+func (m *Meta) ToInt() (int64, error) {
+	i, err := strconv.Atoi(m.Value)
+	return int64(i), err
 }
 
 // ToBool converts value to bool
-func (m *Meta) ToBool() bool {
-	b, _ := strconv.ParseBool(m.Value)
-	return b
+func (m *Meta) ToBool() (bool, error) {
+	b, err := strconv.ParseBool(m.Value)
+	return b, err
+}
+
+// CreateOrUpdateMeta creates or updates meta
+func CreateOrUpdateMeta(key string, value string) (sql.Result, error) {
+	var m *Meta
+	conf := conf.GetConf()
+	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	sess := conn.NewSession(nil)
+	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", key).Load(&m)
+	if m != nil {
+		return sess.InsertInto("meta").Columns("name", "value").Values(key, value).Exec()
+	}
+	return sess.Update("meta").Set("name", key).Set("value", value).Exec()
 }
 
 // MarshalJSON overrides MarshalJSON
@@ -51,6 +65,6 @@ func SelectSingleMeta(name string) *Meta {
 	conf := conf.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
-	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", name).LoadStruct(&m)
+	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", name).Load(&m)
 	return m
 }
