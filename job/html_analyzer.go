@@ -5,10 +5,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/westlab/door-api/model"
-
 	"github.com/ikawaha/kagome/tokenizer"
 	"github.com/kennygrant/sanitize"
+
+	"github.com/westlab/door-api/model"
 )
 
 // DonwloadHTML downloads web page from given URL
@@ -51,7 +51,7 @@ func GetNouns(text string) (words []string) {
 }
 
 // WordCount counts words from words slice
-func WordCount(words []string) (counts []model.Count) {
+func WordCount(words []string) []model.Count {
 	wordmap := make(map[string]int64)
 	for _, word := range words {
 		if _, ok := wordmap[word]; ok {
@@ -61,9 +61,12 @@ func WordCount(words []string) (counts []model.Count) {
 		}
 	}
 
-	// format wordmap to counts
+	// convert wordmap to counts
+	counts := make([]model.Count, len(wordmap), len(wordmap))
+	c := 0
 	for key, value := range wordmap {
-		counts = append(counts, model.Count{Name: key, Count: value})
+		counts[c] = model.Count{key, value}
+		c++
 	}
 
 	return counts
