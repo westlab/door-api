@@ -25,7 +25,12 @@ func UpdateBrowsing(c echo.Context) error {
 func GetBrowsings(c echo.Context) error {
 	q := c.QueryParam("q")
 	size, _ := strconv.Atoi(c.QueryParam("size"))
-	return c.JSON(http.StatusOK, model.GetBrowsings(q, int64(size)))
+	b := model.GetBrowsings(q, int64(size))
+	if b == nil {
+		return c.JSONBlob(http.StatusOK, []byte("[]"))
+	}
+
+	return c.JSON(http.StatusOK, b)
 }
 
 // DeleteBrowsing delete browsing record
@@ -51,8 +56,10 @@ func GetBrowsingHistogram(c echo.Context) error {
 
 // GetBrowsingBySrcIP gets browsing by src ip
 func GetBrowsingBySrcIP(c echo.Context) error {
-	// call model.GetBrowsingByID
-	// example: how to get URL or GET params
 	srcIP := c.Param("src_ip")
-	return c.JSON(http.StatusOK, model.GetBrowsingBySrcIP(srcIP))
+	b := model.GetBrowsingBySrcIP(srcIP)
+	if b == nil {
+		return c.JSONBlob(http.StatusOK, []byte("[]"))
+	}
+	return c.JSON(http.StatusOK, b)
 }
