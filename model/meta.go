@@ -30,12 +30,13 @@ func (m *Meta) ToBool() (bool, error) {
 	return b, err
 }
 
+// CreateOrUpdateMeta creates or updates meta
 func CreateOrUpdateMeta(key string, value string) (sql.Result, error) {
 	var m *Meta
 	conf := conf.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
-	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", name).Load(&m)
+	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", key).Load(&m)
 	if m != nil {
 		return sess.InsertInto("meta").Columns("name", "value").Values(key, value).Exec()
 	}

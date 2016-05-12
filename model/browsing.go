@@ -63,7 +63,7 @@ func (b *Browsing) Update() (result sql.Result, err error) {
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 
-	result, err = sess.Update("browsing").
+	return sess.Update("browsing").
 		Set("src_ip", b.SrcIP).
 		Set("dst_ip", b.DstIP).
 		Set("src_port", b.SrcPort).
@@ -273,15 +273,17 @@ func GetBrowsingRank(column string, duration int64) []Count {
 	return counts
 }
 
+// GetBrowsingAfterID returns Browsing which has id greater than given id
 func GetBrowsingAfterID(id int64, limit int64, hasBrowsingTime bool) []Browsing {
 	var browsings []Browsing
+	var condition dbr.Condition
 	conf := conf.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	if hasBrowsingTime {
-		condition := dbr.Gte("id", id)
+		condition = dbr.Gte("id", id)
 	} else {
-		condition := dbr.And(
+		condition = dbr.And(
 			dbr.Gte("id", id),
 			dbr.Neq("browsing_time", nil))
 	}
@@ -291,7 +293,7 @@ func GetBrowsingAfterID(id int64, limit int64, hasBrowsingTime bool) []Browsing 
 		OrderDir("timestamp", true)
 
 	if limit > 0 {
-		query.Limit(limit)
+		query.Limit(uint64(limit))
 	}
 
 	query.Load(&browsings)

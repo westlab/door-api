@@ -60,7 +60,7 @@ func (browsingTimeCal *BrowsingTimeCalculator) gcRepository() {
 	gcPoint := now.Add(-browsingTimeCal.timeout * time.Second)
 	for key, b := range browsingTimeCal.repository {
 		if b.Timestamp.Time.Before(gcPoint) {
-			delete(browsingTime.repository, k)
+			delete(browsingTimeCal.repository, key)
 		}
 	}
 }
