@@ -39,32 +39,18 @@ func RemoveHTMLTags(html string) string {
 	return html
 }
 
-// GetNouns gets nouns from text with wiki dictionary
-func GetNouns(text string) (words []string) {
+// GetNouns gets nouns from text
+func GetNouns(text string, useUdic bool) (words []string) {
 	tnz := tokenizer.New()
 
-	udic, err := tokenizer.NewUserDic(UserDicPath)
-	if err != nil {
-		log.Println(err)
-	}
-	tnz.SetUserDic(udic)
-
-	tokens := tnz.Tokenize(text)
-
-	for _, token := range tokens {
-		if token.Class == tokenizer.DUMMY {
-			continue
+	if useUdic {
+		udic, err := tokenizer.NewUserDic(UserDicPath)
+		if err != nil {
+			log.Println(err)
 		}
-		if token.Pos() == "名詞" {
-			words = append(words, token.Surface)
-		}
+		tnz.SetUserDic(udic)
 	}
-	return words
-}
 
-// DummyGetNouns gets nouns from text without wiki dictionary
-func DummyGetNouns(text string) (words []string) {
-	tnz := tokenizer.New()
 	tokens := tnz.Tokenize(text)
 
 	for _, token := range tokens {
