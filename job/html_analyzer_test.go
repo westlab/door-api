@@ -15,7 +15,7 @@ func TestRemoveHTMLTags(t *testing.T) {
 }
 
 func TestElementAnalytics(t *testing.T) {
-	text := `桜の花びらが舞う今日はとっても茅ヶ崎で
+	text := `桜の花びらが舞う今日とっても茅ヶ崎で
 	花びらとってもすごく綺麗でまさに茅ヶ崎で茅ヶ崎`
 	words := GetNouns(text)
 	assert.Equal(t, []string{"桜", "花びら", "今日", "茅ヶ崎", "花びら", "綺麗", "茅ヶ崎", "茅ヶ崎"}, words)
@@ -31,4 +31,11 @@ func TestElementAnalytics(t *testing.T) {
 			assert.Equal(t, 3, int(count.Count))
 		}
 	}
+
+	// wikipedia dictionary
+	text2 := "横綱朝青龍"
+	words_not_using_wiki := DummyGetNouns(text2)
+	assert.Equal(t, []string{"横綱", "朝", "青龍"}, words_not_using_wiki)
+	words_using_wiki := GetNouns(text2)
+	assert.Equal(t, []string{"横綱", "朝青龍"}, words_using_wiki)
 }
