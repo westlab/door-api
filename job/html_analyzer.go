@@ -11,6 +11,11 @@ import (
 	"github.com/westlab/door-api/model"
 )
 
+// wikipedia dictionary file
+const (
+	UserDicPath = "./userdic.txt"
+)
+
 // DonwloadHTML downloads web page from given URL
 func DonwloadHTML(url string) (html string, err error) {
 	resp, err := http.Get(url)
@@ -35,9 +40,18 @@ func RemoveHTMLTags(html string) string {
 }
 
 // GetNouns gets nouns from text
-func GetNouns(text string) (words []string) {
-	t := tokenizer.New()
-	tokens := t.Tokenize(text)
+func GetNouns(text string, useUdic bool) (words []string) {
+	tnz := tokenizer.New()
+
+	if useUdic {
+		udic, err := tokenizer.NewUserDic(UserDicPath)
+		if err != nil {
+			log.Println(err)
+		}
+		tnz.SetUserDic(udic)
+	}
+
+	tokens := tnz.Tokenize(text)
 
 	for _, token := range tokens {
 		if token.Class == tokenizer.DUMMY {
