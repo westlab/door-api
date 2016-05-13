@@ -11,6 +11,7 @@ import (
 	"github.com/westlab/door-api/model"
 )
 
+// wikipedia dictionary file
 const (
 	UserDicPath = "./userdic.txt"
 )
@@ -61,7 +62,7 @@ func GetNouns(text string) (words []string) {
 	return words
 }
 
-// GetNouns gets nouns from text without wiki dictionary
+// DummyGetNouns gets nouns from text without wiki dictionary
 func DummyGetNouns(text string) (words []string) {
 	tnz := tokenizer.New()
 	tokens := tnz.Tokenize(text)
