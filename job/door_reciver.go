@@ -5,15 +5,18 @@ import (
 	"net"
 )
 
+// DoorReciver recieve data from door through the unix domain socket
 type DoorReciver struct {
 	unixSocket          string
 	toHTTPReconstructor chan<- *string
 }
 
+// NewDoorReciever creates DoorReciver
 func NewDoorReciever(unixSocket string, toHTTPReconstructor chan<- *string) *DoorReciver {
 	return &DoorReciver{unixSocket, toHTTPReconstructor}
 }
 
+// recieve is called when data arrives
 func (d *DoorReciver) receive(c net.Conn) {
 	defer c.Close()
 
@@ -32,6 +35,7 @@ func (d *DoorReciver) receive(c net.Conn) {
 	}
 }
 
+// Start starts DoorReciver
 func (d *DoorReciver) Start() {
 	l, err := net.Listen("unix", d.unixSocket)
 	if err != nil {
@@ -42,9 +46,8 @@ func (d *DoorReciver) Start() {
 	for {
 		fd, err := l.Accept()
 		if err != nil {
-			log.Printf(err)
+			log.Println(err)
 		}
-
 		go d.receive(fd)
 	}
 }
