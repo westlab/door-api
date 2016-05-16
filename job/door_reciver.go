@@ -31,7 +31,8 @@ func (d *DoorReciver) receive(c net.Conn) {
 
 		data := buf[0:nr]
 		// TODO: do not convert data to string here.
-		toHTTPReconstructor <- &string(data)
+		pdata := string(data)
+		d.toHTTPReconstructor <- &pdata
 	}
 }
 
