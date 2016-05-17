@@ -7,6 +7,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// wikipedia dictionary file
+const (
+	UserDicPath = "./userdic.txt"
+)
+
 func TestRemoveHTMLTags(t *testing.T) {
 	html := `<html><head><meta charset="utf-8"></head>
 	<body><div>WestLab</div></body></html>`
@@ -15,11 +20,12 @@ func TestRemoveHTMLTags(t *testing.T) {
 }
 
 func TestElementAnalytics(t *testing.T) {
-	text := `桜の花びらが舞う今日とっても茅ヶ崎で
+	text1 := `桜の花びらが舞う今日とっても茅ヶ崎で
 	花びらとってもすごく綺麗でまさに茅ヶ崎で茅ヶ崎`
-	words := GetNouns(text, true)
-	assert.Equal(t, []string{"桜", "花びら", "今日", "茅ヶ崎", "花びら", "綺麗", "茅ヶ崎", "茅ヶ崎"}, words)
-	counts := WordCount(words)
+	tnz1 := NewTokenizer(UserDicPath)
+	words1 := tnz1.GetNouns(text1, true)
+	assert.Equal(t, []string{"桜", "花びら", "今日", "茅ヶ崎", "花びら", "綺麗", "茅ヶ崎", "茅ヶ崎"}, words1)
+	counts := WordCount(words1)
 	for _, count := range counts {
 		if count.Name == "桜" {
 			assert.Equal(t, 1, int(count.Count))
@@ -34,8 +40,9 @@ func TestElementAnalytics(t *testing.T) {
 
 	// wikipedia dictionary
 	text2 := "横綱朝青龍"
-	words_not_using_wiki := GetNouns(text2, false)
+	tnz2 := NewTokenizer(UserDicPath)
+	words_not_using_wiki := tnz2.GetNouns(text2, false)
 	assert.Equal(t, []string{"横綱", "朝", "青龍"}, words_not_using_wiki)
-	words_using_wiki := GetNouns(text2, true)
+	words_using_wiki := tnz2.GetNouns(text2, true)
 	assert.Equal(t, []string{"横綱", "朝青龍"}, words_using_wiki)
 }

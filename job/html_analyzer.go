@@ -11,10 +11,21 @@ import (
 	"github.com/westlab/door-api/model"
 )
 
-// wikipedia dictionary file
-const (
-	UserDicPath = "./userdic.txt"
-)
+// Tokenizer is a tokenizer and user dictionary model in kagome/tokenizer
+type Tokenizer struct {
+	tnz  tokenizer.Tokenizer
+	udic tokenizer.UserDic
+}
+
+// NewTokenizer initializes Tokenizer
+func NewTokenizer(path string) Tokenizer {
+	newTnz := tokenizer.New()
+	newUdic, err := tokenizer.NewUserDic(path)
+	if err != nil {
+		log.Println("new user dic: unexpected error")
+	}
+	return Tokenizer{tnz: newTnz, udic: newUdic}
+}
 
 // DonwloadHTML downloads web page from given URL
 func DonwloadHTML(url string) (html string, err error) {
@@ -40,18 +51,12 @@ func RemoveHTMLTags(html string) string {
 }
 
 // GetNouns gets nouns from text
-func GetNouns(text string, useUdic bool) (words []string) {
-	tnz := tokenizer.New()
-
+func (t Tokenizer) GetNouns(text string, useUdic bool) (words []string) {
 	if useUdic {
-		udic, err := tokenizer.NewUserDic(UserDicPath)
-		if err != nil {
-			log.Println(err)
-		}
-		tnz.SetUserDic(udic)
+		t.tnz.SetUserDic(t.udic)
 	}
 
-	tokens := tnz.Tokenize(text)
+	tokens := t.tnz.Tokenize(text)
 
 	for _, token := range tokens {
 		if token.Class == tokenizer.DUMMY {
@@ -61,6 +66,7 @@ func GetNouns(text string, useUdic bool) (words []string) {
 			words = append(words, token.Surface)
 		}
 	}
+
 	return words
 }
 
