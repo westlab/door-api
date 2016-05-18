@@ -2,6 +2,8 @@ package model
 
 import (
 	"database/sql"
+	"log"
+	"os"
 	"testing"
 
 	"github.com/gchaincl/dotsql"
@@ -10,53 +12,73 @@ import (
 	"github.com/westlab/door-api/conf"
 )
 
-func newTestDB(t testing.TB) (*sql.DB, *dotsql.DotSql) {
+func TestMain(m *testing.M) {
+	setup()
+	code := m.Run()
+	teardown()
+	os.Exit(code)
+}
+
+func setup() {
+	createTestTable()
+}
+
+func teardown() {
+	dropTestTable()
+}
+
+func createTestTable() {
+	// load conf file
 	conf := conf.New("../config.toml")
+
 	db, err := sql.Open(conf.DBType, conf.GetDSN())
 	if err != nil {
-		t.Fatalf("Open: %v", err)
+		log.Fatal(err)
 	}
+	defer db.Close()
 
 	dsql, err := dotsql.LoadFromFile("../test/test_data.sql")
 	if err != nil {
-		t.Fatalf("%v", err)
+		log.Fatal(err)
 	}
 
 	_, err = dsql.Exec(db, "drop-meta-table")
 	if err != nil {
-		t.Fatalf("%v", err)
+		log.Fatal(err)
 	}
 
 	_, err = dsql.Exec(db, "create-meta-table")
 	if err != nil {
-		t.Fatalf("%v", err)
+		log.Fatal(err)
 	}
 
-	return db, dsql
+	_, err = dsql.Exec(db, "insert-meta-rows")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
-func closeDB(t testing.TB, db *sql.DB, dsql *dotsql.DotSql) {
-	_, err := dsql.Exec(db, "drop-meta-table")
+func dropTestTable() {
+	conf := conf.New("../config.toml")
+
+	db, err := sql.Open(conf.DBType, conf.GetDSN())
 	if err != nil {
-		t.Fatalf("%v", err)
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	dsql, err := dotsql.LoadFromFile("../test/test_data.sql")
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	err = db.Close()
+	_, err = dsql.Exec(db, "drop-meta-table")
 	if err != nil {
-		t.Fatalf("error closing DB: %v", err)
+		log.Fatal(err)
 	}
 }
 
 func TestSelectSingleMeta(t *testing.T) {
-	db, dsql := newTestDB(t)
-	defer closeDB(t, db, dsql)
-
-	// insert
-	_, err := dsql.Exec(db, "insert-meta-rows")
-	if err != nil {
-		t.Fatalf("%v", err)
-	}
-
 	m := SelectSingleMeta("door-version")
 	assert.Equal(t, "door-version", m.Name)
 	assert.Equal(t, "1.0", m.Value)

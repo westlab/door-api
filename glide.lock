@@ -44,6 +44,8 @@ imports:
   - assert
 - name: github.com/valyala/fasttemplate
   version: 3b874956e03f1636d171bda64b130f9135f42cff
+- name: github.com/gchaincl/dotsql
+  version: 450d80a4d8f8cdd41842a1a3fe9ace90089c5e47
 - name: golang.org/x/net
   version: fb93926129b8ec0056f2f458b1f519654814edf0
   subpackages:
