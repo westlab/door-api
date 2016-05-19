@@ -23,8 +23,10 @@
 # Dump of table browsing
 # ------------------------------------------------------------
 
+-- name: drop-browsing-table
 DROP TABLE IF EXISTS `browsing`;
 
+-- name: create-browsing-table
 CREATE TABLE `browsing` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `src_ip` varchar(255) NOT NULL,
@@ -43,9 +45,11 @@ CREATE TABLE `browsing` (
   KEY `index_browsing_on_src_ip` (`src_ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- name: lock-browsing_time-table
 LOCK TABLES `browsing` WRITE;
 /*!40000 ALTER TABLE `browsing` DISABLE KEYS */;
 
+-- name: insert-browsing-rows
 INSERT INTO `browsing` (`id`, `src_ip`, `dst_ip`, `src_port`, `dst_port`, `timestamp`, `title`, `url`, `created_at`, `browsing_time`, `download`, `domain`)
 VALUES
 	(1,'1.1.1.1','2.2.2.2',123,80,'2016-04-01 00:00:00','Jojo','http://jojo.com','2016-04-25 13:58:30',10,0,'jojo.com'),
@@ -56,14 +60,17 @@ VALUES
 	(6,'10.24.1.111','2.2.2.2',123,80,'2016-04-01 00:00:00','Jojo','http://jojo.com','2016-04-25 14:22:46',10,0,'jojo.com');
 
 /*!40000 ALTER TABLE `browsing` ENABLE KEYS */;
+-- name: unlock-browsing-table
 UNLOCK TABLES;
 
 
 # Dump of table meta
 # ------------------------------------------------------------
 
+-- name: drop-meta-table
 DROP TABLE IF EXISTS `meta`;
 
+-- name: create-meta-table
 CREATE TABLE `meta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -73,24 +80,31 @@ CREATE TABLE `meta` (
   UNIQUE KEY `unique_meta_on_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- name: lock-meta-table
 LOCK TABLES `meta` WRITE;
 /*!40000 ALTER TABLE `meta` DISABLE KEYS */;
 
+-- name: insert-meta-rows
 INSERT INTO `meta` (`id`, `name`, `value`, `created_at`)
 VALUES
 	(1,'door-version','1.0','2016-04-01 00:00:00'),
 	(2,'door-last-update','2016-04-02 00:00:00','2016-04-03 00:00:00'),
-	(3,'door-version-new','2.0','2016-04-03 00:00:00');
+    (3,'door-version-new','2.0','2016-04-03 00:00:00');
 
+-- name: alter-meta-talbe
 /*!40000 ALTER TABLE `meta` ENABLE KEYS */;
+
+-- name: unlock-meta-table
 UNLOCK TABLES;
 
 
 # Dump of table word
 # ------------------------------------------------------------
 
+-- name: drop-word-table
 DROP TABLE IF EXISTS `word`;
 
+-- name: create-word-table
 CREATE TABLE `word` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -99,9 +113,11 @@ CREATE TABLE `word` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- name: lock-word-table
 LOCK TABLES `word` WRITE;
 /*!40000 ALTER TABLE `word` DISABLE KEYS */;
 
+-- name: insert-word-rows
 INSERT INTO `word` (`id`, `name`, `count`, `created_at`)
 VALUES
 	(16,'foo','1','2016-04-19 06:49:56'),
@@ -118,6 +134,7 @@ VALUES
 	(27,'baz','123','2016-04-19 06:50:20');
 
 /*!40000 ALTER TABLE `word` ENABLE KEYS */;
+-- name: unlock-word-table
 UNLOCK TABLES;
 
 

@@ -1,5 +1,5 @@
 hash: 032bbf33419e93da7a7585654ceb9c20e62a83abd9a3adb459ebe090fe1cf1e2
-updated: 2016-05-12T07:02:43.20241176-04:00
+updated: 2016-05-17T01:10:51.065859304-04:00
 imports:
 - name: github.com/go-sql-driver/mysql
   version: 7ebe0a500653eeb1859664bed5e48dec1e164e73
@@ -44,6 +44,8 @@ imports:
   - assert
 - name: github.com/valyala/fasttemplate
   version: 3b874956e03f1636d171bda64b130f9135f42cff
+- name: github.com/gchaincl/dotsql
+  version: 450d80a4d8f8cdd41842a1a3fe9ace90089c5e47
 - name: golang.org/x/net
   version: fb93926129b8ec0056f2f458b1f519654814edf0
   subpackages:

@@ -12,6 +12,10 @@ dependencies:
     - go get github.com/gocraft/dbr
     - go get github.com/labstack/echo
 
+database:
+    override:
+        - mv ./config.ci.toml ./config.toml
+
 test:
   pre:
     - go version
