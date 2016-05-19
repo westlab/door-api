@@ -8,7 +8,7 @@ import (
 	// lib for mysql
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gocraft/dbr"
-	"github.com/westlab/door-api/conf"
+	"github.com/westlab/door-api/context"
 )
 
 // Meta is meta information for door api
@@ -33,7 +33,8 @@ func (m *Meta) ToBool() (bool, error) {
 // CreateOrUpdateMeta creates or updates meta
 func CreateOrUpdateMeta(key string, value string) (sql.Result, error) {
 	var m *Meta
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", key).Load(&m)
@@ -62,7 +63,8 @@ func NewMeta(name string, value string) Meta {
 func SelectSingleMeta(name string) *Meta {
 	var m *Meta
 
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", name).Load(&m)

@@ -19,6 +19,7 @@ type Config struct {
 	DBName     string
 	AppPort    int64
 	AppDebug   bool
+	Sockets    []string
 }
 
 // New generate Config singleton
@@ -27,6 +28,14 @@ func New(tomlFile string) *Config {
 	// Return error
 	if err != nil {
 		log.Println("Parsing config was failed ", err.Error())
+	}
+
+	// Convert interface to slice
+	// handle nil case
+	confSocket := tomlConf.Get("app.sockets").([]interface{})
+	sockets := make([]string, len(confSocket), len(confSocket))
+	for i, e := range confSocket {
+		sockets[i] = e.(string)
 	}
 
 	conf = &Config{
@@ -38,6 +47,7 @@ func New(tomlFile string) *Config {
 		DBName:     tomlConf.Get("db.dbname").(string),
 		AppPort:    tomlConf.Get("app.port").(int64),
 		AppDebug:   tomlConf.Get("app.debug").(bool),
+		Sockets:    sockets,
 	}
 	return conf
 }

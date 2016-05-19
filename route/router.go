@@ -5,15 +5,15 @@ import (
 	"github.com/labstack/echo/middleware"
 
 	"github.com/westlab/door-api/api"
-	"github.com/westlab/door-api/conf"
+	"github.com/westlab/door-api/context"
 )
 
 // Init initialize door api
-func Init(c conf.Config) *echo.Echo {
+func Init(cxt *context.Context) *echo.Echo {
 	e := echo.New()
 
 	// Debug
-	e.SetDebug(c.AppDebug)
+	e.SetDebug(cxt.GetConf().AppDebug)
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
