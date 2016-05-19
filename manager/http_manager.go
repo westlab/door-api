@@ -5,11 +5,13 @@ import (
 	"github.com/westlab/door-api/job"
 )
 
+// HTTPJobManager manages jobs
 type HTTPJobManager struct {
 	recievers      []*job.DoorReciver
 	reconstructors []*job.HTTPReconstructor
 }
 
+// NewHTTPJobManager creates HTTPJobManager
 func NewHTTPJobManager(cxt *context.Context) *HTTPJobManager {
 	sockets := cxt.GetConf().Sockets
 	recieverToReconstructorCh := cxt.GetRecieverChs()
@@ -23,6 +25,7 @@ func NewHTTPJobManager(cxt *context.Context) *HTTPJobManager {
 	return &HTTPJobManager{recievers, reconstructors}
 }
 
+// Start starts HTTPJobManager
 func (h *HTTPJobManager) Start() {
 	for _, r := range h.recievers {
 		go r.Start()
