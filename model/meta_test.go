@@ -10,6 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/stretchr/testify/assert"
 	"github.com/westlab/door-api/conf"
+	"github.com/westlab/door-api/context"
 )
 
 func TestMain(m *testing.M) {
@@ -30,6 +31,7 @@ func teardown() {
 func createTestTable() {
 	// load conf file
 	conf := conf.New("../config.toml")
+	context.NewContext(conf)
 
 	db, err := sql.Open(conf.DBType, conf.GetDSN())
 	if err != nil {
@@ -60,6 +62,7 @@ func createTestTable() {
 
 func dropTestTable() {
 	conf := conf.New("../config.toml")
+	context.NewContext(conf)
 
 	db, err := sql.Open(conf.DBType, conf.GetDSN())
 	if err != nil {

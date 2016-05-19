@@ -6,7 +6,7 @@ import (
 	// lib for mysql
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gocraft/dbr"
-	"github.com/westlab/door-api/conf"
+	"github.com/westlab/door-api/context"
 )
 
 // Word is a model of word to track frequency
@@ -25,7 +25,8 @@ func NewWord(name string, count int64) Word {
 func (w *Word) Save() {
 	// TODO: Test case
 	// TODO: Share connection among model
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	// Create session
@@ -39,7 +40,8 @@ func (w *Word) Save() {
 func GetWordCount(size int64) []Count {
 	// TODO: Test case
 	var counts []Count
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 
 	if size == 0 {
 		size = 10000

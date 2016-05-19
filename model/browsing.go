@@ -11,7 +11,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gocraft/dbr"
 	"github.com/westlab/door-api/common"
-	"github.com/westlab/door-api/conf"
+	"github.com/westlab/door-api/context"
 )
 
 // Browsing is a model for http browsing
@@ -44,7 +44,8 @@ func NewBrowsing(SrcIP string, DstIP string, SrcPort int64, DstPort int64,
 
 // Save saves browsing into db
 func (b *Browsing) Save() {
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	_, err := sess.InsertInto("browsing").
@@ -59,7 +60,8 @@ func (b *Browsing) Save() {
 
 // Update updates browsing in db
 func (b *Browsing) Update() (result sql.Result, err error) {
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 
@@ -110,7 +112,8 @@ func GetBrowsingByID(id int64) Browsing {
 // GetBrowsingBySrcIP returns browsings filtered by src ip
 func GetBrowsingBySrcIP(srcIP string) []Browsing {
 	var browsings []Browsing
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 
@@ -134,7 +137,8 @@ func GetBrowsings(q string, size int64) []Browsing {
 	// size is a number of the result
 	var browsings []Browsing
 	var sql string
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 
 	if size == 0 {
 		size = 100
@@ -182,7 +186,8 @@ func GetBrowsingHistogram(duraiton int64, window int64) []Count {
 	windows := makeHistogramWindow(start, time.Now(), int64(window))
 	countCase := makeCountCase(windows)
 
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 
@@ -258,7 +263,8 @@ func unpivotHistogram(windows []common.TimeTuple, table string) string {
 // GetBrowsingRank retuns count of given column
 func GetBrowsingRank(column string, duration int64) []Count {
 	var counts []Count
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	from := time.Now().Add(-time.Duration(duration))
@@ -277,7 +283,8 @@ func GetBrowsingRank(column string, duration int64) []Count {
 func GetBrowsingAfterID(id int64, limit int64, hasBrowsingTime bool) []Browsing {
 	var browsings []Browsing
 	var condition dbr.Condition
-	conf := conf.GetConf()
+	cxt := context.GetContext()
+	conf := cxt.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	if hasBrowsingTime {
