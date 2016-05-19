@@ -9,3 +9,4 @@ dbname = 'circle_test'
 [app]
 port = 8080
 debug = true
+sockets = ["/tmp/door1", "/tmp/door2", "/tmp/door3"]
