@@ -32,7 +32,7 @@ func createTestTable() {
 	// load conf file
 	conf := conf.New("../config.toml")
 	context.NewContext(conf)
-	cxt = context.GetContext()
+	cxt := context.GetContext()
 
 	db, err := sql.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN())
 	if err != nil {
@@ -64,7 +64,7 @@ func createTestTable() {
 func dropTestTable() {
 	conf := conf.New("../config.toml")
 	context.NewContext(conf)
-	cxt = context.GetContext()
+	cxt := context.GetContext()
 
 	db, err := sql.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN())
 	if err != nil {
