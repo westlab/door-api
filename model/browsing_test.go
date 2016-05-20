@@ -10,28 +10,24 @@ import (
 )
 
 func TestBrowsingCRUD(t *testing.T) {
-	// Insert
+	// Save
 	b := NewBrowsing("10.24.1.20", "6.6.6.6", 123, 80, 3, 20, "Mitsubishi", "http://mitsubishi.co.jp", "mitsubishi.co.jp", time.Now())
 	b.Save()
-	// SQLで列が挿入されているかのチェック
 	bs := GetBrowsingBySrcIP("10.24.1.20")
 	assert.Equal(t, "Mitsubishi", bs[0].Title)
 
 	// Update
-	// SQLでIDからbをSelect
 	b = GetBrowsingByID(int64(2))
 	b.Title = "KiraYoshikage"
 	_, err := b.Update()
 	if err != nil {
 		log.Println(err)
 	}
-	// SQLで列が更新されているかのチェック
 	b = GetBrowsingByID(int64(2))
 	assert.Equal(t, "KiraYoshikage", b.Title)
 
 	// Delete
-	// SQLでIDからbをSelect
-	// b = GetBrowsingByID(int64(4))
+	// TODO: add delete test
 }
 
 func TestBrowsingJSON(t *testing.T) {
