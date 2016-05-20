@@ -17,7 +17,6 @@ type DPI struct {
 	SrcPort   int64     `db:"src_port" json:"src_port"`
 	DstPort   int64     `db:"dst_port" json:"dst_port"`
 	StreamID  int64     `db:"stream_id" json:"stream_id"`
-	RuleID    int64     `db:"rule_id" json:"rule_id"`
 	Rule      string    `db:"rule" json:"rule"`
 	Timestamp time.Time `db:"timestamp" json:"timestamp"`
 	Data      string    `db:"data" json:"data"`

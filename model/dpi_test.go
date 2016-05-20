@@ -11,7 +11,7 @@ func TestToKey(t *testing.T) {
 	d := DPI{
 		ID: 1, SrcIP: "1.1.1.1", DstIP: "2.2.2.2",
 		SrcMac: "abcd", DstMac: "foo", SrcPort: 80, DstPort: 12345,
-		StreamID: 1, RuleID: 1, Rule: "bar", Timestamp: time.Now(),
+		StreamID: 1, Rule: "bar", Timestamp: time.Now(),
 		Data: "data",
 	}
 
@@ -59,7 +59,7 @@ func TestParseData(t *testing.T) {
 	d := DPI{
 		ID: 1, SrcIP: "1.1.1.1", DstIP: "2.2.2.2",
 		SrcMac: "abcd", DstMac: "foo", SrcPort: 80, DstPort: 12345,
-		StreamID: 1, RuleID: 1, Rule: "GET", Timestamp: time.Now(),
+		StreamID: 1, Rule: "GET", Timestamp: time.Now(),
 		Data: " /foo/bar/baz HTTP 1.1\r\n",
 	}
 	r, err := d.ParseData()
@@ -89,7 +89,7 @@ func TestToHTTPCommunication(t *testing.T) {
 	d := DPI{
 		ID: 1, SrcIP: "1.1.1.1", DstIP: "2.2.2.2",
 		SrcMac: "abcd", DstMac: "foo", SrcPort: 80, DstPort: 12345,
-		StreamID: 1, RuleID: 1, Rule: "GET", Timestamp: time.Now(),
+		StreamID: 1, Rule: "GET", Timestamp: time.Now(),
 		Data: " /foo/bar/baz HTTP 1.1\r\n",
 	}
 

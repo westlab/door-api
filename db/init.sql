@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS browsing (
   dst_ip varchar(255) NOT NULL,
   src_port int(11) NOT NULL,
   dst_port int(11) NOT NULL,
-  timestamp datetime NOT NULL,
+  timestamp datetime,
   title text,
   domain varchar(255),
   url text,

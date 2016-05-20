@@ -1,6 +1,8 @@
 package job
 
 import (
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/westlab/door-api/model"
@@ -8,13 +10,23 @@ import (
 
 // HTTPReconstructor is for reconstructing HTTP from packet
 type HTTPReconstructor struct {
-	repository map[string]*model.HTTPCommunication
-	gcTime     time.Time
-	gcDuration time.Duration
+	repository    map[string]*model.HTTPCommunication
+	gcTime        time.Time
+	gcDuration    time.Duration
+	fromReciverCh <-chan *string
 }
 
-// Add adds DPI to resitory to maintain HTTP connection
-func (h *HTTPReconstructor) Add(dpi model.DPI) {
+// Start starts HTTPReconstructor
+func (h *HTTPReconstructor) Start() {
+	for {
+		data := <-h.fromReciverCh
+		dpi := convertStrToDPI(data)
+		h.add(dpi)
+	}
+}
+
+// add adds DPI to resitory to maintain HTTP connection
+func (h *HTTPReconstructor) add(dpi *model.DPI) {
 	k := dpi.ToKey()
 	hc, ok := h.repository[k]
 	if !ok {
@@ -29,7 +41,7 @@ func (h *HTTPReconstructor) Add(dpi model.DPI) {
 		h.repository[k] = dpi.ToHTTPCommunication()
 	case "Host:":
 		hc.Host = data
-	case "ContentType:":
+	case "Content-Type:":
 		hc.ContentType = data
 	case "<title":
 		hc.Title = data
@@ -45,13 +57,33 @@ func (h *HTTPReconstructor) Add(dpi model.DPI) {
 	}
 }
 
+// convertStrToDPI converts string to DPI
+// SrcIP, DstIP, SrcPort, DstPort, Timestamp, Rule, data
+func convertStrToDPI(data *string) (dpi *model.DPI) {
+	d := strings.SplitN(*data, ",", 7)
+	srcPort, _ := strconv.Atoi(d[2])
+	dstPort, _ := strconv.Atoi(d[3])
+	timestamp, _ := time.Parse(d[4], "2006-01-02 15:04:06")
+
+	dpi = &model.DPI{
+		SrcIP:     d[0],
+		DstIP:     d[1],
+		SrcPort:   int64(srcPort),
+		DstPort:   int64(dstPort),
+		Timestamp: timestamp,
+		Rule:      d[5],
+		Data:      d[6],
+	}
+	return dpi
+}
+
 // NewHTTPReconstructor creates a new HTTPReconstructor
-func NewHTTPReconstructor(size int64, gcDuration int64) *HTTPReconstructor {
+func NewHTTPReconstructor(size int64, gcDuration int64, fromReciverCh <-chan *string) *HTTPReconstructor {
 	if gcDuration < 0 {
 		gcDuration = 0
 	}
 	m := make(map[string]*model.HTTPCommunication, size)
-	return &HTTPReconstructor{m, time.Now(), time.Duration(gcDuration)}
+	return &HTTPReconstructor{m, time.Now(), time.Duration(gcDuration), fromReciverCh}
 }
 
 // gcRepository perform govage collection
