@@ -54,7 +54,7 @@ func (b *Browsing) Save() {
 		Record(*b).
 		Exec()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 }
 

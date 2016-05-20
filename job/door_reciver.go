@@ -3,6 +3,7 @@ package job
 import (
 	"log"
 	"net"
+	"strings"
 )
 
 // DoorReciver recieve data from door through the unix domain socket
@@ -32,7 +33,14 @@ func (d *DoorReciver) receive(c net.Conn) {
 		data := buf[0:nr]
 		// TODO: do not convert data to string here.
 		pdata := string(data)
-		d.toHTTPReconstructor <- &pdata
+		records := strings.Split(pdata, "DEND")
+		for _, r := range records {
+			if r == "" {
+				continue
+			}
+			var t = r
+			d.toHTTPReconstructor <- &t
+		}
 	}
 }
 

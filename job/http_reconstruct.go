@@ -41,7 +41,7 @@ func (h *HTTPReconstructor) add(dpi *model.DPI) {
 		h.repository[k] = dpi.ToHTTPCommunication()
 	case "Host:":
 		hc.Host = data
-	case "ContentType:":
+	case "Content-Type:":
 		hc.ContentType = data
 	case "<title":
 		hc.Title = data
