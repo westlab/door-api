@@ -20,10 +20,11 @@ func TestRemoveHTMLTags(t *testing.T) {
 }
 
 func TestElementAnalytics(t *testing.T) {
+	tnz := NewTokenizer(UserDicPath)
+
 	text1 := `桜の花びらが舞う今日とっても茅ヶ崎で
 	花びらとってもすごく綺麗でまさに茅ヶ崎で茅ヶ崎`
-	tnz1 := NewTokenizer(UserDicPath)
-	words1 := tnz1.GetNouns(text1, true)
+	words1 := tnz.GetNouns(text1, true)
 	assert.Equal(t, []string{"桜", "花びら", "今日", "茅ヶ崎", "花びら", "綺麗", "茅ヶ崎", "茅ヶ崎"}, words1)
 	counts := WordCount(words1)
 	for _, count := range counts {
@@ -38,11 +39,10 @@ func TestElementAnalytics(t *testing.T) {
 		}
 	}
 
-	// wikipedia dictionary
+	// use wikipedia dictionary or not
 	text2 := "横綱朝青龍"
-	tnz2 := NewTokenizer(UserDicPath)
-	words_not_using_wiki := tnz2.GetNouns(text2, false)
+	words_not_using_wiki := tnz.GetNouns(text2, false)
 	assert.Equal(t, []string{"横綱", "朝", "青龍"}, words_not_using_wiki)
-	words_using_wiki := tnz2.GetNouns(text2, true)
+	words_using_wiki := tnz.GetNouns(text2, true)
 	assert.Equal(t, []string{"横綱", "朝青龍"}, words_using_wiki)
 }
