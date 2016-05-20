@@ -50,7 +50,7 @@ func (b *Browsing) Save() {
 	sess := conn.NewSession(nil)
 	_, err := sess.InsertInto("browsing").
 		Columns("src_ip", "dst_ip", "src_port", "dst_port",
-		"timestamp", "download", "browsing_time", "title", "url", "domain").
+			"timestamp", "download", "browsing_time", "title", "url", "domain").
 		Record(*b).
 		Exec()
 	if err != nil {
@@ -124,10 +124,10 @@ func GetBrowsingBySrcIP(srcIP string) []Browsing {
 
 	sess.Select("*").From("browsing").
 		Where(
-		dbr.And(
-			dbr.Eq("src_ip", srcIP),
-			dbr.Neq("browsing_time", nil),
-		)).
+			dbr.And(
+				dbr.Eq("src_ip", srcIP),
+				dbr.Neq("browsing_time", nil),
+			)).
 		OrderDir("timestamp", true).
 		Load(&browsings)
 	return browsings
