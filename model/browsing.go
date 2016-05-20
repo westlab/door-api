@@ -34,7 +34,7 @@ type Browsing struct {
 func NewBrowsing(SrcIP string, DstIP string, SrcPort int64, DstPort int64,
 	Download int64, BrowsingTime int64, Title string, URL string, Domain string,
 	Timestamp time.Time) *Browsing {
-	nullTime := dbr.NullTime{Time: Timestamp}
+	nullTime := dbr.NullTime{Time: Timestamp, Valid: true}
 	b := Browsing{SrcIP: SrcIP, DstIP: DstIP, SrcPort: SrcPort, DstPort: DstPort,
 		Download: Download, BrowsingTime: BrowsingTime, Title: Title, URL: URL,
 		Domain: Domain, Timestamp: nullTime}
