@@ -1,12 +1,53 @@
 package model
 
 import (
+	"log"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
+
+func TestBrowsingCRUD(t *testing.T) {
+	// Insert
+	b := NewBrowsing("10.24.1.20", "6.6.6.6", 123, 80, 3, 20, "Mitsubishi", "http://mitsubishi.co.jp", "mitsubishi.co.jp", time.Now())
+	b.Save()
+	// SQLで列が挿入されているかのチェック
+	bs := GetBrowsingBySrcIP("10.24.1.20")
+	assert.Equal(t, "Mitsubishi", bs[0].Title)
+
+	// Update
+	// SQLでIDからbをSelect
+	b = GetBrowsingByID(int64(2))
+	b.Title = "KiraYoshikage"
+	_, err := b.Update()
+	if err != nil {
+		log.Println(err)
+	}
+	// SQLで列が更新されているかのチェック
+	b = GetBrowsingByID(int64(2))
+	assert.Equal(t, "KiraYoshikage", b.Title)
+
+	// Delete
+	// SQLでIDからbをSelect
+	// b = GetBrowsingByID(int64(4))
+}
+
+func TestBrowsingJSON(t *testing.T) {
+}
+
+func TestGetBrowsingByID(t *testing.T) {
+}
+
+func TestGetBrowsingBySrcIP(t *testing.T) {
+}
+
+func TestGetBrowsings(t *testing.T) {
+}
+
+func TestGetBrowsingHistogram(t *testing.T) {
+}
 
 func TestMakeCountCase(t *testing.T) {
 	start := time.Date(1990, time.November, 24, 0, 0, 0, 0, time.UTC)
@@ -60,4 +101,10 @@ func TestMakeUnpivotHistogram(t *testing.T) {
 		"SELECT '1:20' AS name, `browsing_histogram`.`1:20` FROM `browsing_histogram`"}
 	expected := strings.Join(unions, "\n")
 	assert.Equal(t, expected, unp)
+}
+
+func TestGetBrowsingRank(t *testing.T) {
+}
+
+func TestGetBrowsingAfterID(t *testing.T) {
 }
