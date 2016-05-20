@@ -33,7 +33,7 @@ CREATE TABLE `browsing` (
   `dst_ip` varchar(255) NOT NULL,
   `src_port` int(11) NOT NULL,
   `dst_port` int(11) NOT NULL,
-  `timestamp` datetime,
+  `timestamp` datetime NOT NULL,
   `title` text,
   `url` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
