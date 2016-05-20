@@ -45,8 +45,7 @@ func NewBrowsing(SrcIP string, DstIP string, SrcPort int64, DstPort int64,
 // Save saves browsing into db
 func (b *Browsing) Save() {
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	_, err := sess.InsertInto("browsing").
 		Columns("src_ip", "dst_ip", "src_port", "dst_port",
@@ -61,8 +60,7 @@ func (b *Browsing) Save() {
 // Update updates browsing in db
 func (b *Browsing) Update() (result sql.Result, err error) {
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 
 	return sess.Update("browsing").
@@ -107,8 +105,7 @@ func (b *Browsing) MarshalJSON() ([]byte, error) {
 func GetBrowsingByID(id int64) *Browsing {
 	var b *Browsing
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	sess.Select("*").From("browsing").Where("id = ?", id).Load(&b)
 	return b
@@ -118,8 +115,7 @@ func GetBrowsingByID(id int64) *Browsing {
 func GetBrowsingBySrcIP(srcIP string) []Browsing {
 	var browsings []Browsing
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 
 	sess.Select("*").From("browsing").
@@ -143,13 +139,12 @@ func GetBrowsings(q string, size int64) []Browsing {
 	var browsings []Browsing
 	var sql string
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
 
 	if size == 0 {
 		size = 100
 	}
 
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	if q != "" {
 		sql = fmt.Sprintf(`
@@ -192,8 +187,7 @@ func GetBrowsingHistogram(duraiton int64, window int64) []Count {
 	countCase := makeCountCase(windows)
 
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 
 	// view is not necessary because we can get value and know type and column name
@@ -269,8 +263,7 @@ func unpivotHistogram(windows []common.TimeTuple, table string) string {
 func GetBrowsingRank(column string, duration int64) []Count {
 	var counts []Count
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	from := time.Now().Add(-time.Duration(duration))
 	sql := fmt.Sprintf(`
@@ -289,8 +282,7 @@ func GetBrowsingAfterID(id int64, limit int64, hasBrowsingTime bool) []Browsing 
 	var browsings []Browsing
 	var condition dbr.Condition
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	if hasBrowsingTime {
 		condition = dbr.Gte("id", id)

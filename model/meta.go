@@ -34,8 +34,7 @@ func (m *Meta) ToBool() (bool, error) {
 func CreateOrUpdateMeta(key string, value string) (sql.Result, error) {
 	var m *Meta
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", key).Load(&m)
 	if m != nil {
@@ -64,8 +63,7 @@ func SelectSingleMeta(name string) *Meta {
 	var m *Meta
 
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", name).Load(&m)
 	return m
