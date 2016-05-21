@@ -88,8 +88,7 @@ func TestHTTPReconstructionFromDoor(t *testing.T) {
 	client.Write([]byte("2.2.2.2,1.1.1.1,80,12345,2016-04-01 00:00:00,506, text/htmlDEND"))
 	client.Write([]byte("2.2.2.2,1.1.1.1,80,12345,2016-04-01 00:00:00,504, >WestLab</titile><body></body>DEND"))
 
-	conf := cxt.GetConf()
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 
 	time.Sleep(100 * time.Millisecond)

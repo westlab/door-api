@@ -26,9 +26,8 @@ func (w *Word) Save() {
 	// TODO: Test case
 	// TODO: Share connection among model
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
 
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	// Create session
 	sess := conn.NewSession(nil)
 	sess.InsertInto("word").Columns("name", "count").
@@ -41,7 +40,6 @@ func GetWordCount(size int64) []Count {
 	// TODO: Test case
 	var counts []Count
 	cxt := context.GetContext()
-	conf := cxt.GetConf()
 
 	if size == 0 {
 		size = 10000
@@ -49,7 +47,7 @@ func GetWordCount(size int64) []Count {
 
 	// TODO: Share connection among model
 	// TODO: Error handling
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	sql := fmt.Sprintf(`
 		SELECT W.name AS name, SUM(W.count) AS count

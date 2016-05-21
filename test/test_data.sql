@@ -47,6 +47,8 @@ CREATE TABLE `browsing` (
 
 -- name: lock-browsing_time-table
 LOCK TABLES `browsing` WRITE;
+
+-- name: alter-browsing-talbe-disable
 /*!40000 ALTER TABLE `browsing` DISABLE KEYS */;
 
 -- name: insert-browsing-rows
@@ -59,7 +61,9 @@ VALUES
 	(5,'10.24.1.11','3.3.3.3',123,80,'2016-04-01 00:00:00','scryed','http://www.s-cry-ed.net','2016-04-25 14:21:33',10,0,'www.s-cry-ed.net'),
 	(6,'10.24.1.111','2.2.2.2',123,80,'2016-04-01 00:00:00','Jojo','http://jojo.com','2016-04-25 14:22:46',10,0,'jojo.com');
 
+-- name: alter-browsing-talbe-enable
 /*!40000 ALTER TABLE `browsing` ENABLE KEYS */;
+
 -- name: unlock-browsing-table
 UNLOCK TABLES;
 
@@ -82,6 +86,8 @@ CREATE TABLE `meta` (
 
 -- name: lock-meta-table
 LOCK TABLES `meta` WRITE;
+
+-- name: alter-meta-talbe-disable
 /*!40000 ALTER TABLE `meta` DISABLE KEYS */;
 
 -- name: insert-meta-rows
@@ -91,7 +97,7 @@ VALUES
 	(2,'door-last-update','2016-04-02 00:00:00','2016-04-03 00:00:00'),
     (3,'door-version-new','2.0','2016-04-03 00:00:00');
 
--- name: alter-meta-talbe
+-- name: alter-meta-talbe-enable
 /*!40000 ALTER TABLE `meta` ENABLE KEYS */;
 
 -- name: unlock-meta-table
@@ -115,6 +121,8 @@ CREATE TABLE `word` (
 
 -- name: lock-word-table
 LOCK TABLES `word` WRITE;
+
+-- name: alter-word-talbe-disable
 /*!40000 ALTER TABLE `word` DISABLE KEYS */;
 
 -- name: insert-word-rows
@@ -133,7 +141,9 @@ VALUES
 	(26,'bar','2','2016-04-19 06:50:20'),
 	(27,'baz','123','2016-04-19 06:50:20');
 
+-- name: alter-word-talbe-enable
 /*!40000 ALTER TABLE `word` ENABLE KEYS */;
+
 -- name: unlock-word-table
 UNLOCK TABLES;
 
