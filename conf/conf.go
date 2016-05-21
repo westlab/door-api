@@ -20,6 +20,7 @@ type Config struct {
 	AppPort    int64
 	AppDebug   bool
 	Sockets    []string
+	BlackList  string
 }
 
 // New generate Config singleton
@@ -28,6 +29,10 @@ func New(tomlFile string) *Config {
 	// Return error
 	if err != nil {
 		log.Println("Parsing config was failed ", err.Error())
+	}
+
+	if conf != nil {
+		return conf
 	}
 
 	// Convert interface to slice
@@ -48,6 +53,7 @@ func New(tomlFile string) *Config {
 		AppPort:    tomlConf.Get("app.port").(int64),
 		AppDebug:   tomlConf.Get("app.debug").(bool),
 		Sockets:    sockets,
+		BlackList:  tomlConf.Get("app.blackList").(string),
 	}
 	return conf
 }
