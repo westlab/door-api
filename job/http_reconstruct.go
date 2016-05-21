@@ -65,6 +65,9 @@ func (h *HTTPReconstructor) add(dpi *model.DPI) {
 // SrcIP, DstIP, SrcPort, DstPort, Timestamp, Rule, data
 func convertStrToDPI(data *string) (dpi *model.DPI, err error) {
 	d := strings.SplitN(*data, ",", 7)
+	if len(d) == 7 {
+		return nil, errors.New("data format is wrong :" + *data)
+	}
 	srcPort, err := strconv.Atoi(d[2])
 	if err != nil {
 		return nil, err
