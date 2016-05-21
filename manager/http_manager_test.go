@@ -33,7 +33,7 @@ func setup() {
 }
 
 func teardown() {
-
+	os.Remove(socket)
 }
 
 func createClient(socket string) net.Conn {
