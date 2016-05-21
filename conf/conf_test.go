@@ -33,6 +33,7 @@ func createTempConfig() {
 		port = 8080
 		debug = true
 		sockets = ["/tmp/foo", "/tmp/bar", "/tmp/baz"]
+        blackList = "/tmp/blacklist"
 	`
 	ioutil.WriteFile(tomlFile.Name(), []byte(tomlData), os.ModePerm)
 }
