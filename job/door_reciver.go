@@ -26,7 +26,7 @@ func (d *DoorReciver) receive(c net.Conn) {
 		buf := make([]byte, 1024)
 		nr, err := c.Read(buf)
 		if err != nil {
-			log.Println(err)
+			// log.Println(err)
 			return
 		}
 
