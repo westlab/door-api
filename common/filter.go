@@ -6,10 +6,12 @@ import (
 	"strings"
 )
 
+// Filter for restrict banned word
 type Filter struct {
 	blackList []string
 }
 
+// NewFilter creates Filter instance
 func NewFilter(blackListFile string) *Filter {
 	// If file is not too large, ReadFile is better solution
 	// If not, use buffer io
