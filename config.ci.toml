@@ -10,3 +10,4 @@ dbname = 'circle_test'
 port = 8080
 debug = true
 sockets = ["/tmp/door1", "/tmp/door2", "/tmp/door3"]
+blackList = "/tmp/blacklist"

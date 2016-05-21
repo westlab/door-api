@@ -4,6 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/labstack/echo/engine/standard"
 
@@ -28,5 +31,15 @@ func main() {
 	// Start Server
 	router := route.Init(cxt)
 	ipPort := fmt.Sprintf(":%d", cxt.GetConf().AppPort)
-	router.Run(standard.New(ipPort))
+	go router.Run(standard.New(ipPort))
+
+	// Clean up sockets
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, os.Kill, syscall.SIGTERM)
+
+	<-c
+	log.Println("Clean up")
+	for _, sock := range cxt.GetConf().Sockets {
+		os.Remove(sock)
+	}
 }
