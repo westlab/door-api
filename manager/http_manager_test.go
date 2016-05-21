@@ -83,10 +83,10 @@ func TestHTTPReconstructionFromDoor(t *testing.T) {
 	time.Sleep(100 * time.Millisecond)
 	client := createClient(socket)
 
-	client.Write([]byte("1.1.1.1,2.2.2.2,12345,80,2016-04-01 00:00:00,GET, /home HTTP 1.1DEND"))
-	client.Write([]byte("1.1.1.1,2.2.2.2,12345,80,2016-04-01 00:00:00,Host:, google.com\r\n From: user@example.comDEND"))
-	client.Write([]byte("2.2.2.2,1.1.1.1,80,12345,2016-04-01 00:00:00,Content-Type:, text/htmlDEND"))
-	client.Write([]byte("2.2.2.2,1.1.1.1,80,12345,2016-04-01 00:00:00,<title, >WestLab</titile><body></body>DEND"))
+	client.Write([]byte("1.1.1.1,2.2.2.2,12345,80,2016-04-01 00:00:00,501, /home HTTP 1.1DEND"))
+	client.Write([]byte("1.1.1.1,2.2.2.2,12345,80,2016-04-01 00:00:00,503, google.com\r\n From: user@example.comDEND"))
+	client.Write([]byte("2.2.2.2,1.1.1.1,80,12345,2016-04-01 00:00:00,506, text/htmlDEND"))
+	client.Write([]byte("2.2.2.2,1.1.1.1,80,12345,2016-04-01 00:00:00,504, >WestLab</titile><body></body>DEND"))
 
 	conf := cxt.GetConf()
 	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)

@@ -1,6 +1,7 @@
 package job
 
 import (
+	"errors"
 	"strconv"
 	"strings"
 	"time"
@@ -20,7 +21,10 @@ type HTTPReconstructor struct {
 func (h *HTTPReconstructor) Start() {
 	for {
 		data := <-h.fromReciverCh
-		dpi := convertStrToDPI(data)
+		dpi, err := convertStrToDPI(data)
+		if err != nil {
+			continue
+		}
 		h.add(dpi)
 	}
 }
@@ -59,11 +63,24 @@ func (h *HTTPReconstructor) add(dpi *model.DPI) {
 
 // convertStrToDPI converts string to DPI
 // SrcIP, DstIP, SrcPort, DstPort, Timestamp, Rule, data
-func convertStrToDPI(data *string) (dpi *model.DPI) {
+func convertStrToDPI(data *string) (dpi *model.DPI, err error) {
 	d := strings.SplitN(*data, ",", 7)
-	srcPort, _ := strconv.Atoi(d[2])
-	dstPort, _ := strconv.Atoi(d[3])
-	timestamp, _ := time.Parse(d[4], "2006-01-02 15:04:06")
+	srcPort, err := strconv.Atoi(d[2])
+	if err != nil {
+		return nil, err
+	}
+	dstPort, err := strconv.Atoi(d[3])
+	if err != nil {
+		return nil, err
+	}
+	timestamp, err := time.Parse("2006-01-01 15:04:06", d[4])
+	if err != nil {
+		return nil, err
+	}
+	rule, ok := mapIDtoRule(d[5])
+	if ok != true {
+		return nil, errors.New("Rule is not matched in rule list")
+	}
 
 	dpi = &model.DPI{
 		SrcIP:     d[0],
@@ -71,10 +88,50 @@ func convertStrToDPI(data *string) (dpi *model.DPI) {
 		SrcPort:   int64(srcPort),
 		DstPort:   int64(dstPort),
 		Timestamp: timestamp,
-		Rule:      d[5],
+		Rule:      rule,
 		Data:      d[6],
 	}
-	return dpi
+	return dpi, nil
+}
+
+// mapIDtoRule maps rule id to rule
+//
+// 500:/HTTP/
+// 501:/GET/
+// 502:/POST/
+// 503:/Host:/
+// 504:/<title/
+// 505:/Content-Length:/
+// 506:/Content-Type:/
+// 507:/Accept-Encoding:/
+// 508:/Content-Encoding:/
+// 509:/Status:/
+func mapIDtoRule(id string) (rule string, ok bool) {
+	// map is the easist way
+	switch id {
+	case "500":
+		return "HTTP", true
+	case "501":
+		return "GET", true
+	case "502":
+		return "POST", true
+	case "503":
+		return "Host:", true
+	case "504":
+		return "<title", true
+	case "505":
+		return "Content-Length:", true
+	case "506":
+		return "Content-Type:", true
+	case "507":
+		return "Accept-Encoding:", true
+	case "508":
+		return "Content-Encoding:", true
+	case "509":
+		return "Status:", true
+	default:
+		return "", false
+	}
 }
 
 // NewHTTPReconstructor creates a new HTTPReconstructor
