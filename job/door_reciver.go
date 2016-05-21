@@ -34,7 +34,7 @@ func (d *DoorReciver) receive(c net.Conn) {
 		// TODO: do not convert data to string here.
 		pdata := string(data)
 		records := strings.Split(pdata, "DEND")
-		for _, r := range records[:len(records)-1] {
+		for _, r := range records {
 			if r == "" {
 				continue
 			}
