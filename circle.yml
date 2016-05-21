@@ -12,10 +12,14 @@ dependencies:
     - go get github.com/gocraft/dbr
     - go get github.com/labstack/echo
 
+database:
+    override:
+        - mv ./config.ci.toml ./config.toml
+
 test:
   pre:
     - go version
   override:
     - test -z "$(gofmt -s -l . | tee /dev/stderr)"
-    - test -z "$(golint $(find . *.go | grep -v test) | tee /dev/stderr)"
-    - go test ./...
+    - ./test/lint
+    - go test -v ./...

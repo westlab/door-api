@@ -1,8 +1,12 @@
 package api
 
 import (
-	"github.com/labstack/echo"
 	"net/http"
+	"strconv"
+
+	"github.com/labstack/echo"
+
+	"github.com/westlab/door-api/model"
 )
 
 // CreateBrowsing cretes browsing record
@@ -17,11 +21,16 @@ func UpdateBrowsing(c echo.Context) error {
 	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }
 
-// GetBrowsing get and search browsing record
+// GetBrowsings get and search browsing record
 func GetBrowsings(c echo.Context) error {
-	// TODO: implement get browsing function
-	// call model.GetBrowsings
-	return c.JSON(http.StatusOK, "{'hello': 'world'}")
+	q := c.QueryParam("q")
+	size, _ := strconv.Atoi(c.QueryParam("size"))
+	b := model.GetBrowsings(q, int64(size))
+	if b == nil {
+		return c.JSONBlob(http.StatusOK, []byte("[]"))
+	}
+
+	return c.JSON(http.StatusOK, b)
 }
 
 // DeleteBrowsing delete browsing record
@@ -30,16 +39,27 @@ func DeleteBrowsing(c echo.Context) error {
 	return c.JSON(http.StatusOK, "{'hello': 'world'}")
 }
 
-// GetBrowsingHistorgram get browsing histogram in specific time window
+// GetBrowsingHistogram returns browsing histogram in specific time window
 // with fin grain manner.
-func GetBrowsingHistorgram(c echo.Context) error {
-	// TODO: implement get browsing histogram
-	return c.JSON(http.StatusOK, "{'hello': 'world'}")
+func GetBrowsingHistogram(c echo.Context) error {
+	window, _ := strconv.Atoi(c.Param("window"))
+	duration, _ := strconv.Atoi(c.Param("duration"))
+	if window == 0 {
+		window = 10
+	}
+	if duration == 0 {
+		duration = 300
+	}
+	return c.JSON(http.StatusOK,
+		model.GetBrowsingHistogram(int64(duration), int64(window)))
 }
 
-func GetBrowsingByID(c echo.Context) error {
-	// call model.GetBrowsingByID
-	// example: how to get URL or GET params
-	// id := c.Param("id")
-	return c.JSON(http.StatusOK, "{'hello': 'world'}")
+// GetBrowsingBySrcIP gets browsing by src ip
+func GetBrowsingBySrcIP(c echo.Context) error {
+	srcIP := c.Param("src_ip")
+	b := model.GetBrowsingBySrcIP(srcIP)
+	if b == nil {
+		return c.JSONBlob(http.StatusOK, []byte("[]"))
+	}
+	return c.JSON(http.StatusOK, b)
 }

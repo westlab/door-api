@@ -32,6 +32,7 @@ func createTempConfig() {
 		[app]
 		port = 8080
 		debug = true
+		sockets = ["/tmp/foo", "/tmp/bar", "/tmp/baz"]
 	`
 	ioutil.WriteFile(tomlFile.Name(), []byte(tomlData), os.ModePerm)
 }
@@ -52,6 +53,7 @@ func TestToConf(t *testing.T) {
 	assert.Equal(t, conf.DBPort, int64(3306))
 	assert.Equal(t, conf.AppPort, int64(8080))
 	assert.Equal(t, conf.AppDebug, true)
+	assert.Equal(t, conf.Sockets, []string{"/tmp/foo", "/tmp/bar", "/tmp/baz"})
 }
 
 func TestGetDSN(t *testing.T) {

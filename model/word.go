@@ -6,7 +6,7 @@ import (
 	// lib for mysql
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gocraft/dbr"
-	"github.com/westlab/door-api/conf"
+	"github.com/westlab/door-api/context"
 )
 
 // Word is a model of word to track frequency
@@ -25,9 +25,9 @@ func NewWord(name string, count int64) Word {
 func (w *Word) Save() {
 	// TODO: Test case
 	// TODO: Share connection among model
-	conf := conf.GetConf()
+	cxt := context.GetContext()
 
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	// Create session
 	sess := conn.NewSession(nil)
 	sess.InsertInto("word").Columns("name", "count").
@@ -39,7 +39,7 @@ func (w *Word) Save() {
 func GetWordCount(size int64) []Count {
 	// TODO: Test case
 	var counts []Count
-	conf := conf.GetConf()
+	cxt := context.GetContext()
 
 	if size == 0 {
 		size = 10000
@@ -47,7 +47,7 @@ func GetWordCount(size int64) []Count {
 
 	// TODO: Share connection among model
 	// TODO: Error handling
-	conn, _ := dbr.Open(conf.DBType, conf.GetDSN(), nil)
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	sql := fmt.Sprintf(`
 		SELECT W.name AS name, SUM(W.count) AS count
