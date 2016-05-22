@@ -37,7 +37,7 @@ func (manager *BrowsingTimeManager) run() {
 	}
 }
 
-// NewBrowsingTimer creates BrowsingTimeManager
+// NewBrowsingTimeManager creates BrowsingTimeManager
 func NewBrowsingTimeManager(cxt *context.Context) *BrowsingTimeManager {
 	browsingTimer := job.NewBrowsingTimer(10000, 60*10, 60*10)
 	var idx int64
