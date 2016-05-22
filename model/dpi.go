@@ -21,10 +21,10 @@ type DPI struct {
 }
 
 func NewDPI(SrcIP string, DstIP string, SrcPort int64, DstPort int64, Timestamp time.Time, Rule string, Data string) *DPI {
-	if common.IsZeroByte(SrcIP[0]) {
+	if common.IsZeroByte(SrcIP) {
 		SrcIP = SrcIP[1:]
 	}
-	if common.IsZeroByte(DstIP[0]) {
+	if common.IsZeroByte(DstIP) {
 		DstIP = DstIP[1:]
 	}
 
@@ -33,7 +33,7 @@ func NewDPI(SrcIP string, DstIP string, SrcPort int64, DstPort int64, Timestamp 
 		DstIP:     DstIP,
 		SrcPort:   SrcPort,
 		DstPort:   DstPort,
-		Timestamp: Timestmap,
+		Timestamp: Timestamp,
 		Rule:      Rule,
 		Data:      Data,
 	}

@@ -85,15 +85,7 @@ func convertStrToDPI(data *string) (dpi *model.DPI, err error) {
 		return nil, errors.New("Rule is not matched in rule list")
 	}
 
-	dpi = &model.NewDPI{
-		SrcIP:     d[0],
-		DstIP:     d[1],
-		SrcPort:   int64(srcPort),
-		DstPort:   int64(dstPort),
-		Timestamp: timestamp,
-		Rule:      rule,
-		Data:      d[6],
-	}
+	dpi = model.NewDPI(d[0], d[1], int64(srcPort), int64(dstPort), timestamp, rule, d[6])
 	return dpi, nil
 }
 
