@@ -28,7 +28,7 @@ func main() {
 	httpManager.Start()
 	// Start Browsing time manager
 	browsingManager := manager.NewBrowsingTimeManager(cxt)
-	browsingMnager.Start()
+	browsingManager.Start()
 
 	// Start Server
 	router := route.Init(cxt)

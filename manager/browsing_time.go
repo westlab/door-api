@@ -41,12 +41,13 @@ func (manager *BrowsingTimeManager) run() {
 func NewBrowsingTimeManager(cxt *context.Context) *BrowsingTimeManager {
 	browsingTimer := job.NewBrowsingTimer(10000, 60*10, 60*10)
 	var idx int64
+	var err error
 
 	meta := model.SelectSingleMeta(browsingIDKey)
 	if meta != nil {
 		idx = 0
 	} else {
-		idx, err := m.ToInt()
+		idx, err = meta.ToInt()
 		if err != nil {
 			idx = 0
 		}
