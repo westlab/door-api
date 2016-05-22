@@ -6,13 +6,17 @@ import (
 	"strings"
 )
 
+const (
+	zeroByte uint8 = 0
+)
+
 // Filter for restrict banned word
-type Filter struct {
+type BlackListFilter struct {
 	blackList []string
 }
 
 // NewFilter creates Filter instance
-func NewFilter(blackListFile string) *Filter {
+func NewBlackListFilter(blackListFile string) *Filter {
 	// If file is not too large, ReadFile is better solution
 	// If not, use buffer io
 	file, err := ioutil.ReadFile(blackListFile)
@@ -36,4 +40,12 @@ func (f *Filter) Ok(word string) (ok bool) {
 		}
 	}
 	return true
+}
+
+// IsZeroByte check if string is zeroByte
+func IsZeroByte(s string) bool {
+	if zeroByte == uint8(s) {
+		return true
+	}
+	return false
 }
