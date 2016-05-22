@@ -17,7 +17,7 @@ baz
 	`
 	ioutil.WriteFile(blackListFile.Name(), []byte(blackList), os.ModePerm)
 
-	f := NewFilter(blackListFile.Name())
+	f := NewBlackListFilter(blackListFile.Name())
 	assert.Equal(t, f.Ok("foooo"), false)
 	assert.Equal(t, f.Ok("foooo"), false)
 	assert.Equal(t, f.Ok("hoge"), true)

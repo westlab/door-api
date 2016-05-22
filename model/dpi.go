@@ -5,21 +5,39 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/westlab/door-api/common"
 )
 
 // DPI is a model for storing Deep Packet Inspection Result
 type DPI struct {
-	ID        int64     `db:"id" json:"id"`
 	SrcIP     string    `db:"src_ip" json:"src_ip"`
 	DstIP     string    `db:"dst_ip" json:"dst_ip"`
-	SrcMac    string    `db:"src_mac" json:"src_mac"`
-	DstMac    string    `db:"dst_mac" json:"dst_mac"`
 	SrcPort   int64     `db:"src_port" json:"src_port"`
 	DstPort   int64     `db:"dst_port" json:"dst_port"`
-	StreamID  int64     `db:"stream_id" json:"stream_id"`
 	Rule      string    `db:"rule" json:"rule"`
 	Timestamp time.Time `db:"timestamp" json:"timestamp"`
 	Data      string    `db:"data" json:"data"`
+}
+
+// NewDPI returns DPI
+func NewDPI(SrcIP string, DstIP string, SrcPort int64, DstPort int64, Timestamp time.Time, Rule string, Data string) *DPI {
+	if common.IsZeroByte(SrcIP) {
+		SrcIP = SrcIP[1:]
+	}
+	if common.IsZeroByte(DstIP) {
+		DstIP = DstIP[1:]
+	}
+
+	return &DPI{
+		SrcIP:     SrcIP,
+		DstIP:     DstIP,
+		SrcPort:   SrcPort,
+		DstPort:   DstPort,
+		Timestamp: Timestamp,
+		Rule:      Rule,
+		Data:      Data,
+	}
 }
 
 // ToKey returns key generated from ips and ports
