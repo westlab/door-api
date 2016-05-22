@@ -6,21 +6,21 @@ import (
 	"github.com/westlab/door-api/model"
 )
 
-// BrowsingTimeCalculator calculrate browsing time.
+// BrowsingTimer calculrate browsing time.
 // Browsing time is the difference between request.
-type BrowsingTimeCalculator struct {
+type BrowsingTimer struct {
 	repository map[string]*model.Browsing
 	gcTime     time.Time
 	gcDuration time.Duration
 	timeout    time.Duration
 }
 
-// NewBrowsingTimeCalculator create a BrowsingTimeCalculator instance
+// NewBrowsingTimer create a BrowsingTimeCalculator instance
 //
 // size: hint for memory allocation of map
 // timeout: threshold for deleting Browsing instance from repository
 // gcDuration: interval for gc
-func NewBrowsingTimeCalculator(size int64, timeout int64, gcDuration int64) *BrowsingTimeCalculator {
+func NewBrowsingTimer(size int64, timeout int64, gcDuration int64) *BrowsingTimer {
 	if gcDuration < 0 {
 		gcDuration = 0
 	}
@@ -28,16 +28,16 @@ func NewBrowsingTimeCalculator(size int64, timeout int64, gcDuration int64) *Bro
 		timeout = 30 * 60
 	}
 	b := make(map[string]*model.Browsing, size)
-	return &BrowsingTimeCalculator{b, time.Now(),
+	return &BrowsingTimer{b, time.Now(),
 		time.Duration(timeout), time.Duration(gcDuration)}
 }
 
-// Add adds Browsing to BrowsingTimeCalculator
-func (browsingTimeCal *BrowsingTimeCalculator) Add(b *model.Browsing) {
+// Add adds Browsing to BrowsingTimer
+func (browsingTimer *BrowsingTimer) Add(b *model.Browsing) {
 	k := b.SrcIP
-	existedBrowsing, ok := browsingTimeCal.repository[k]
+	existedBrowsing, ok := browsingTimer.repository[k]
 	if !ok {
-		browsingTimeCal.repository[k] = b
+		browsingTimer.repository[k] = b
 		return
 	}
 
@@ -46,21 +46,21 @@ func (browsingTimeCal *BrowsingTimeCalculator) Add(b *model.Browsing) {
 	browsingTime := int64(previousTime.Sub(newTime) / time.Second)
 	existedBrowsing.BrowsingTime = browsingTime
 	existedBrowsing.Update()
-	browsingTimeCal.repository[k] = b
+	browsingTimer.repository[k] = b
 
-	if time.Since(browsingTimeCal.gcTime) > browsingTimeCal.gcDuration*time.Second {
-		browsingTimeCal.gcRepository()
-		browsingTimeCal.gcTime = time.Now()
+	if time.Since(browsingTimer.gcTime) > browsingTimer.gcDuration*time.Second {
+		browsingTimer.gcRepository()
+		browsingTimer.gcTime = time.Now()
 	}
 }
 
 // gcRepository perform gc
-func (browsingTimeCal *BrowsingTimeCalculator) gcRepository() {
+func (browsingTimer *BrowsingTimer) gcRepository() {
 	now := time.Now()
-	gcPoint := now.Add(-browsingTimeCal.timeout * time.Second)
-	for key, b := range browsingTimeCal.repository {
+	gcPoint := now.Add(-browsingTimer.timeout * time.Second)
+	for key, b := range browsingTimer.repository {
 		if b.Timestamp.Time.Before(gcPoint) {
-			delete(browsingTimeCal.repository, key)
+			delete(browsingTimer.repository, key)
 		}
 	}
 }
