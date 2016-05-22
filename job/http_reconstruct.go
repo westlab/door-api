@@ -76,7 +76,7 @@ func convertStrToDPI(data *string) (dpi *model.DPI, err error) {
 	if err != nil {
 		return nil, err
 	}
-	timestamp, err := time.Parse("2006-01-01 15:04:06", d[4])
+	timestamp, err := time.Parse("2006-01-02 15:04:05", d[4])
 	if err != nil {
 		return nil, err
 	}
