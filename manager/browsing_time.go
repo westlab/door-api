@@ -1,4 +1,4 @@
-package job
+package manager
 
 import (
 	"github.com/westlab/door-api/context"
