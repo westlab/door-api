@@ -20,6 +20,7 @@ type DPI struct {
 	Data      string    `db:"data" json:"data"`
 }
 
+// NewDPI returns DPI
 func NewDPI(SrcIP string, DstIP string, SrcPort int64, DstPort int64, Timestamp time.Time, Rule string, Data string) *DPI {
 	if common.IsZeroByte(SrcIP) {
 		SrcIP = SrcIP[1:]

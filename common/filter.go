@@ -10,12 +10,12 @@ const (
 	zeroByte uint8 = 0
 )
 
-// Filter for restrict banned word
+// BlackListFilter for restrict banned word
 type BlackListFilter struct {
 	blackList []string
 }
 
-// NewFilter creates Filter instance
+// NewBlackListFilter creates Filter instance
 func NewBlackListFilter(blackListFile string) *BlackListFilter {
 	// If file is not too large, ReadFile is better solution
 	// If not, use buffer io
