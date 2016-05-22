@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS browsing (
   download int(11),
   PRIMARY KEY (id),
   KEY index_browsing_on_created_at (created_at),
-  KEY index_browsing_on_src_ip (src_ip)
+  KEY index_browsing_on_src_ip (src_ip),
   KEY index_browsing_on_domain (domain)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

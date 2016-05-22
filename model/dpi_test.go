@@ -9,9 +9,9 @@ import (
 
 func TestToKey(t *testing.T) {
 	d := DPI{
-		ID: 1, SrcIP: "1.1.1.1", DstIP: "2.2.2.2",
-		SrcMac: "abcd", DstMac: "foo", SrcPort: 80, DstPort: 12345,
-		StreamID: 1, Rule: "bar", Timestamp: time.Now(),
+		SrcIP: "1.1.1.1", DstIP: "2.2.2.2",
+		SrcPort: 80, DstPort: 12345,
+		Rule: "bar", Timestamp: time.Now(),
 		Data: "data",
 	}
 
@@ -36,9 +36,19 @@ func TestParseHOST(t *testing.T) {
 
 func TestParseContestType(t *testing.T) {
 	data := " application/json \r\nFrom: user@example.com"
-	r, err := parseHOST(data)
+	r, err := parseContentType(data)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, "application/json", r)
+
+	data = " text/html; charset=ISO-8859-1 \r\nFrom: user@example.com"
+	r, err = parseContentType(data)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "text/html", r)
+
+	data = " text/* \r\nFrom: user@example.com"
+	r, err = parseContentType(data)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "text/*", r)
 	// TODO: Blacktest
 }
 
@@ -57,9 +67,9 @@ func TestParseTitle(t *testing.T) {
 
 func TestParseData(t *testing.T) {
 	d := DPI{
-		ID: 1, SrcIP: "1.1.1.1", DstIP: "2.2.2.2",
-		SrcMac: "abcd", DstMac: "foo", SrcPort: 80, DstPort: 12345,
-		StreamID: 1, Rule: "GET", Timestamp: time.Now(),
+		SrcIP: "1.1.1.1", DstIP: "2.2.2.2",
+		SrcPort: 80, DstPort: 12345,
+		Rule: "GET", Timestamp: time.Now(),
 		Data: " /foo/bar/baz HTTP 1.1\r\n",
 	}
 	r, err := d.ParseData()
@@ -87,9 +97,9 @@ func TestParseData(t *testing.T) {
 
 func TestToHTTPCommunication(t *testing.T) {
 	d := DPI{
-		ID: 1, SrcIP: "1.1.1.1", DstIP: "2.2.2.2",
-		SrcMac: "abcd", DstMac: "foo", SrcPort: 80, DstPort: 12345,
-		StreamID: 1, Rule: "GET", Timestamp: time.Now(),
+		SrcIP: "1.1.1.1", DstIP: "2.2.2.2",
+		SrcPort: 80, DstPort: 12345,
+		Rule: "GET", Timestamp: time.Now(),
 		Data: " /foo/bar/baz HTTP 1.1\r\n",
 	}
 
