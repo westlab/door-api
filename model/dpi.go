@@ -98,9 +98,19 @@ func parseHOST(s string) (string, error) {
 }
 
 // parseContentType parses HTTP header and extracts Content-Type
+//
+// data candidate
+// text/html
+// text/*
+// text: text/html; charset=ISO-8859-1
 func parseContentType(s string) (string, error) {
-	contentType := strings.SplitN(s, "\r\n", 2)
-	return strings.TrimSpace(contentType[0]), nil
+	contentTypeRaw := strings.SplitN(s, "\r\n", 2)
+	contentType := contentTypeRaw[0]
+	idx := strings.Index(contentType, ";")
+	if idx == -1 {
+		return strings.TrimSpace(contentType), nil
+	}
+	return strings.TrimSpace(contentType[:idx]), nil
 }
 
 // parseTitle parses HTTP body and extract title

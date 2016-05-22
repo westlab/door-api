@@ -36,9 +36,19 @@ func TestParseHOST(t *testing.T) {
 
 func TestParseContestType(t *testing.T) {
 	data := " application/json \r\nFrom: user@example.com"
-	r, err := parseHOST(data)
+	r, err := parseContentType(data)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, "application/json", r)
+
+	data = " text/html; charset=ISO-8859-1 \r\nFrom: user@example.com"
+	r, err = parseContentType(data)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "text/html", r)
+
+	data = " text/* \r\nFrom: user@example.com"
+	r, err = parseContentType(data)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "text/*", r)
 	// TODO: Blacktest
 }
 
