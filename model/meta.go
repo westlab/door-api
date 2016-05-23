@@ -36,6 +36,7 @@ func CreateOrUpdateMeta(key string, value string) (sql.Result, error) {
 	cxt := context.GetContext()
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
+	defer sess.Close()
 	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", key).Load(&m)
 	if m != nil {
 		return sess.InsertInto("meta").Columns("name", "value").Values(key, value).Exec()
@@ -65,6 +66,7 @@ func SelectSingleMeta(name string) *Meta {
 	cxt := context.GetContext()
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
+	defer sess.Close()
 	sess.Select("name", "value", "created_at").From("meta").Where("name = ?", name).Load(&m)
 	return m
 }

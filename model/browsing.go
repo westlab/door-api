@@ -47,6 +47,7 @@ func (b *Browsing) Save() {
 	cxt := context.GetContext()
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
+	defer sess.Close()
 	_, err := sess.InsertInto("browsing").
 		Columns("src_ip", "dst_ip", "src_port", "dst_port",
 			"timestamp", "download", "browsing_time", "title", "url", "domain").
@@ -62,6 +63,7 @@ func (b *Browsing) Update() (result sql.Result, err error) {
 	cxt := context.GetContext()
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
+	defer sess.Close()
 
 	return sess.Update("browsing").
 		Set("src_ip", b.SrcIP).
@@ -108,6 +110,7 @@ func GetBrowsingByID(id int64) *Browsing {
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
 	sess.Select("*").From("browsing").Where("id = ?", id).Load(&b)
+	defer sess.Close()
 	return b
 }
 
@@ -146,6 +149,7 @@ func GetBrowsings(q string, size int64) []Browsing {
 
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
+	defer sess.Close()
 	if q != "" {
 		sql = fmt.Sprintf(`
 			SELECT id, src_ip, dst_ip, src_port, dst_port, timestamp, created_at, download, browsing_time, title, url, domain
@@ -189,6 +193,7 @@ func GetBrowsingHistogram(duraiton int64, window int64) []Count {
 	cxt := context.GetContext()
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
+	defer sess.Close()
 
 	// view is not necessary because we can get value and know type and column name
 	// of result. We can create go object in clien side
@@ -265,6 +270,7 @@ func GetBrowsingRank(column string, duration int64) []Count {
 	cxt := context.GetContext()
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
+	defer sess.Close()
 	from := time.Now().Add(-time.Duration(duration))
 	sql := fmt.Sprintf(`
 		SELECT B.name AS name, SUM(B.%s) AS count
@@ -284,6 +290,7 @@ func GetBrowsingAfterID(id int64, limit int64, hasBrowsingTime bool) []Browsing 
 	cxt := context.GetContext()
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
+	defer sess.Close()
 	if hasBrowsingTime {
 		condition = dbr.Gte("id", id)
 	} else {
