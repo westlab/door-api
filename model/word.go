@@ -30,6 +30,7 @@ func (w *Word) Save() {
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	// Create session
 	sess := conn.NewSession(nil)
+	defer sess.Close()
 	sess.InsertInto("word").Columns("name", "count").
 		Record(&w).
 		Exec()
@@ -49,6 +50,7 @@ func GetWordCount(size int64) []Count {
 	// TODO: Error handling
 	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
 	sess := conn.NewSession(nil)
+	defer sess.Close()
 	sql := fmt.Sprintf(`
 		SELECT W.name AS name, SUM(W.count) AS count
 		FROM (

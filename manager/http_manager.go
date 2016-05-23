@@ -7,6 +7,7 @@ import (
 
 // HTTPJobManager manages jobs
 type HTTPJobManager struct {
+	cxt            *context.Context
 	recievers      []*job.DoorReciver
 	reconstructors []*job.HTTPReconstructor
 }
@@ -22,7 +23,7 @@ func NewHTTPJobManager(cxt *context.Context) *HTTPJobManager {
 		recievers[i] = job.NewDoorReciever(sockets[i], recieverToReconstructorCh[i])
 		reconstructors[i] = job.NewHTTPReconstructor(10000, 60*10, recieverToReconstructorCh[i])
 	}
-	return &HTTPJobManager{recievers, reconstructors}
+	return &HTTPJobManager{cxt, recievers, reconstructors}
 }
 
 // Start starts HTTPJobManager
