@@ -7,6 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	testUserDicPath = "./userdic.txt" // TODO: should be changed
+)
+
 func TestRemoveHTMLTags(t *testing.T) {
 	html := `<html><head><meta charset="utf-8"></head>
 	<body><div>WestLab</div></body></html>`
@@ -15,7 +19,7 @@ func TestRemoveHTMLTags(t *testing.T) {
 }
 
 func TestElementAnalytics(t *testing.T) {
-	tnz := NewTokenizer(UserDicPath)
+	tnz := NewTokenizer(testUserDicPath) // TODO: shoud be changed
 
 	text1 := `桜の花びらが舞う今日とっても茅ヶ崎で
 	花びらとってもすごく綺麗でまさに茅ヶ崎で茅ヶ崎`

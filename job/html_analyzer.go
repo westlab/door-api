@@ -17,7 +17,7 @@ import (
 
 // wikipedia dictionary file
 const (
-	UserDicPath = "/usr/local/go/src/github.com/westlab/door-api/job/userdic.txt" // TODO: change this
+	userDicPath = "./job/userdic.txt" // TODO: should be changed
 )
 
 // HTMLAnalyzer is analyzer for HTML page words
@@ -29,7 +29,7 @@ type HTMLAnalyzer struct {
 // NewHTMLAnalyzer creates HTMLAnalyzer
 func NewHTMLAnalyzer() *HTMLAnalyzer {
 	savedURLs := make(map[string]string)
-	tokenizer := NewTokenizer(UserDicPath)
+	tokenizer := NewTokenizer(userDicPath)
 	return &HTMLAnalyzer{savedURLs, &tokenizer}
 }
 
