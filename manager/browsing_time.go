@@ -44,12 +44,12 @@ func NewBrowsingTimeManager(cxt *context.Context) *BrowsingTimeManager {
 	var err error
 
 	meta := model.SelectSingleMeta(browsingIDKey)
-	if meta != nil {
-		idx = 0
+	if meta == nil {
+		idx = 1
 	} else {
 		idx, err = meta.ToInt()
 		if err != nil {
-			idx = 0
+			idx = 1
 		}
 	}
 

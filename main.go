@@ -35,6 +35,12 @@ func main() {
 		browsingManager.Start()
 	}
 
+	// Start HTML analyzer manager
+	if cxt.GetConf().HTMLAnayzer {
+		htmlAnalyzeManager := manager.NewHTMLAnalyzerManager(cxt)
+		htmlAnalyzeManager.Start()
+	}
+
 	// Start Server
 	router := route.Init(cxt)
 	ipPort := fmt.Sprintf(":%d", cxt.GetConf().AppPort)
