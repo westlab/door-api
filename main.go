@@ -24,11 +24,16 @@ func main() {
 	cxt := context.NewContext(conf)
 
 	// Start Job manager
-	httpManager := manager.NewHTTPJobManager(cxt)
-	httpManager.Start()
+	if cxt.GetConf().HTTPReconstructor {
+		httpManager := manager.NewHTTPJobManager(cxt)
+		httpManager.Start()
+	}
+
 	// Start Browsing time manager
-	// browsingManager := manager.NewBrowsingTimeManager(cxt)
-	// browsingManager.Start()
+	if cxt.GetConf().BrowsingTimer {
+		browsingManager := manager.NewBrowsingTimeManager(cxt)
+		browsingManager.Start()
+	}
 
 	// Start Server
 	router := route.Init(cxt)
