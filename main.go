@@ -29,6 +29,9 @@ func main() {
 	// Start Browsing time manager
 	// browsingManager := manager.NewBrowsingTimeManager(cxt)
 	// browsingManager.Start()
+	// Start HTML analyzer manager
+	// htmlAnalyzeManager := manager.NewHTMLAnalyzerManager(cxt)
+	// htmlAnalyzeManager.Start()
 
 	// Start Server
 	router := route.Init(cxt)
