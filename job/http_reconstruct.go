@@ -51,8 +51,8 @@ func (h *HTTPReconstructor) add(dpi *model.DPI) {
 		hc.Title = data
 		if hc.IsValid("") {
 			hc.ToBrowsing().Save()
-			delete(h.repository, k)
 		}
+		delete(h.repository, k)
 	}
 
 	if time.Since(h.gcTime) > h.gcDuration*time.Second {
