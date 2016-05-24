@@ -11,16 +11,18 @@ var conf *Config
 
 // Config for door application
 type Config struct {
-	DBUser     string
-	DBPassword string
-	DBHost     string
-	DBPort     int64
-	DBType     string
-	DBName     string
-	AppPort    int64
-	AppDebug   bool
-	Sockets    []string
-	BlackList  string
+	DBUser            string
+	DBPassword        string
+	DBHost            string
+	DBPort            int64
+	DBType            string
+	DBName            string
+	AppPort           int64
+	AppDebug          bool
+	Sockets           []string
+	BlackList         string
+	BrowsingTimer     bool
+	HTTPReconstructor bool
 }
 
 // New generate Config singleton
@@ -44,16 +46,18 @@ func New(tomlFile string) *Config {
 	}
 
 	conf = &Config{
-		DBUser:     tomlConf.Get("db.user").(string),
-		DBPassword: tomlConf.Get("db.password").(string),
-		DBHost:     tomlConf.Get("db.host").(string),
-		DBPort:     tomlConf.Get("db.port").(int64),
-		DBType:     tomlConf.Get("db.type").(string),
-		DBName:     tomlConf.Get("db.dbname").(string),
-		AppPort:    tomlConf.Get("app.port").(int64),
-		AppDebug:   tomlConf.Get("app.debug").(bool),
-		Sockets:    sockets,
-		BlackList:  tomlConf.Get("app.blackList").(string),
+		DBUser:            tomlConf.Get("db.user").(string),
+		DBPassword:        tomlConf.Get("db.password").(string),
+		DBHost:            tomlConf.Get("db.host").(string),
+		DBPort:            tomlConf.Get("db.port").(int64),
+		DBType:            tomlConf.Get("db.type").(string),
+		DBName:            tomlConf.Get("db.dbname").(string),
+		AppPort:           tomlConf.Get("app.port").(int64),
+		AppDebug:          tomlConf.Get("app.debug").(bool),
+		Sockets:           sockets,
+		BlackList:         tomlConf.Get("app.blackList").(string),
+		BrowsingTimer:     tomlConf.Get("jobs.browsingTimer").(bool),
+		HTTPReconstructor: tomlConf.Get("jobs.httpReconstructor").(bool),
 	}
 	return conf
 }
