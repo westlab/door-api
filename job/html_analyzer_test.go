@@ -7,11 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// wikipedia dictionary file
-const (
-	UserDicPath = "./userdic.txt"
-)
-
 func TestRemoveHTMLTags(t *testing.T) {
 	html := `<html><head><meta charset="utf-8"></head>
 	<body><div>WestLab</div></body></html>`
