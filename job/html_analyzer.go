@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"regexp"
 
 	"github.com/ikawaha/kagome/tokenizer"
 	"github.com/kennygrant/sanitize"
@@ -42,6 +43,15 @@ func DonwloadHTML(url string) (html string, err error) {
 	}
 	html = string(contents)
 	return html, nil
+}
+
+// RemoveAnyTagData removes tag's data from selected tag name
+func RemoveAnyTagData(html string, tags ...string) string {
+	for _, tag := range tags {
+		re, _ := regexp.Compile("\\<" + tag + "[\\S\\s]+?\\</" + tag + "\\>")
+		html = re.ReplaceAllString(html, "")
+	}
+	return html
 }
 
 // RemoveHTMLTags removes html tags from text

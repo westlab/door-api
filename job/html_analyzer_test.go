@@ -12,6 +12,33 @@ const (
 	UserDicPath = "./userdic.txt"
 )
 
+func TestRemoveAnyTagData(t *testing.T) {
+	html := `
+<html>
+<head><title>TITLE</title></head>
+<body>
+<script type="text/javascript">
+function cst(cat, evt, targetUrl) {
+if (window._gaq) {
+_gaq.push(['_trackSocial', cat, evt, targetUrl]);
+} else {
+console.log("trackSocial(cat)");
+}
+};
+</script>
+BODY
+</body>
+</html> `
+
+	ohtml1 := RemoveAnyTagData(html, "script")
+	text1 := strings.TrimSpace(RemoveHTMLTags(ohtml1))
+	assert.Equal(t, "TITLEBODY", text1)
+
+	ohtml2 := RemoveAnyTagData(html, "script", "head")
+	text2 := strings.TrimSpace(RemoveHTMLTags(ohtml2))
+	assert.Equal(t, "BODY", text2)
+}
+
 func TestRemoveHTMLTags(t *testing.T) {
 	html := `<html><head><meta charset="utf-8"></head>
 	<body><div>WestLab</div></body></html>`
