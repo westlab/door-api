@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// Start HTML analyzer manager
-	if cxt.GetConf().HTMLAnayzer {
+	if cxt.GetConf().HTMLAnalyzer {
 		htmlAnalyzeManager := manager.NewHTMLAnalyzerManager(cxt)
 		htmlAnalyzeManager.Start()
 	}
