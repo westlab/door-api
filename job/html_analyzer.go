@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/ikawaha/kagome/tokenizer"
@@ -45,7 +46,9 @@ func (htmlAnalyzer *HTMLAnalyzer) Manage(b *model.Browsing) {
 	if err != nil {
 		return // else to write?
 	}
-	wordList := htmlAnalyzer.tokenizer.GetNouns(RemoveHTMLTags(html), true)
+	html = RemoveAnyTagData(html, "script") // remove scirpt tag data
+	sanitizedText := RemoveHTMLTags(html)
+	wordList := htmlAnalyzer.tokenizer.GetNouns(sanitizedText, true)
 	SaveWordsText(hashed, wordList)
 
 	// save words to Word table
@@ -88,6 +91,15 @@ func DonwloadHTML(url string) (html string, err error) {
 	}
 	html = string(contents)
 	return html, nil
+}
+
+// RemoveAnyTagData removes tag's data from selected tag name
+func RemoveAnyTagData(html string, tags ...string) string {
+	for _, tag := range tags {
+		re, _ := regexp.Compile("\\<" + tag + "[\\S\\s]+?\\</" + tag + "\\>")
+		html = re.ReplaceAllString(html, "")
+	}
+	return html
 }
 
 // RemoveHTMLTags removes html tags from text
