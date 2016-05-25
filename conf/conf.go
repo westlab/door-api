@@ -21,6 +21,7 @@ type Config struct {
 	AppDebug   bool
 	Sockets    []string
 	BlackList  string
+	WordsPath  string
 }
 
 // New generate Config singleton
@@ -54,6 +55,7 @@ func New(tomlFile string) *Config {
 		AppDebug:   tomlConf.Get("app.debug").(bool),
 		Sockets:    sockets,
 		BlackList:  tomlConf.Get("app.blackList").(string),
+		WordsPath:  tomlConf.Get("app.words").(string),
 	}
 	return conf
 }

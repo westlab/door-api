@@ -34,6 +34,7 @@ func createTempConfig() {
 		debug = true
 		sockets = ["/tmp/foo", "/tmp/bar", "/tmp/baz"]
         blackList = "/tmp/blacklist"
+        words = "/tmp/words"
 	`
 	ioutil.WriteFile(tomlFile.Name(), []byte(tomlData), os.ModePerm)
 }
@@ -55,6 +56,8 @@ func TestToConf(t *testing.T) {
 	assert.Equal(t, conf.AppPort, int64(8080))
 	assert.Equal(t, conf.AppDebug, true)
 	assert.Equal(t, conf.Sockets, []string{"/tmp/foo", "/tmp/bar", "/tmp/baz"})
+	assert.Equal(t, conf.BlackList, "/tmp/blacklist")
+	assert.Equal(t, conf.WordsPath, "/tmp/words")
 }
 
 func TestGetDSN(t *testing.T) {

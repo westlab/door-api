@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"log"
 
 	// lib for mysql
 	_ "github.com/go-sql-driver/mysql"
@@ -17,8 +18,8 @@ type Word struct {
 }
 
 // NewWord creates a new Word
-func NewWord(name string, count int64) Word {
-	return Word{}
+func NewWord(name string, count int64) *Word {
+	return &Word{Name: name, Count: count}
 }
 
 // Save persists Word in storage
@@ -31,9 +32,12 @@ func (w *Word) Save() {
 	// Create session
 	sess := conn.NewSession(nil)
 	defer sess.Close()
-	sess.InsertInto("word").Columns("name", "count").
-		Record(&w).
+	_, err := sess.InsertInto("word").Columns("name", "count").
+		Record(*w).
 		Exec()
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 // GetWordCount returns Word which contains word and count
