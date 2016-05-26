@@ -54,7 +54,7 @@ func (htmlAnalyzer *HTMLAnalyzer) Manage(b *model.Browsing) {
 
 	// save words to Word table
 	counts := WordCount(wordList)
-	var words []*model.Word
+	words := make([]*model.Word, len(counts))
 	for _, count := range counts {
 		w := model.NewWord(count.Name, count.Count)
 		words = append(words, w)
@@ -116,7 +116,7 @@ func RemoveHTMLTags(html string) string {
 // SaveWordsText saves text file from string slice
 func SaveWordsText(fileName string, strList []string) bool {
 	cxt := context.GetContext()
-	content := []byte(strings.Join(strList, "\n")) // should use another split char like ","?
+	content := []byte(strings.Join(strList, "\n"))
 	fpath := filepath.Join(cxt.GetConf().WordsPath, fileName)
 	err := ioutil.WriteFile(fpath, content, os.ModePerm) // conf.WordsPath is the dir to save words files
 	if err != nil {
