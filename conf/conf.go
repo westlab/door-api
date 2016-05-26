@@ -21,8 +21,10 @@ type Config struct {
 	AppDebug          bool
 	Sockets           []string
 	BlackList         string
+	WordsPath         string
 	BrowsingTimer     bool
 	HTTPReconstructor bool
+	HTMLAnalyzer      bool
 }
 
 // New generate Config singleton
@@ -56,8 +58,10 @@ func New(tomlFile string) *Config {
 		AppDebug:          tomlConf.Get("app.debug").(bool),
 		Sockets:           sockets,
 		BlackList:         tomlConf.Get("app.blackList").(string),
+		WordsPath:         tomlConf.Get("app.words").(string),
 		BrowsingTimer:     tomlConf.Get("jobs.browsingTimer").(bool),
 		HTTPReconstructor: tomlConf.Get("jobs.httpReconstructor").(bool),
+		HTMLAnalyzer:      tomlConf.Get("jobs.htmlAnalyzer").(bool),
 	}
 	return conf
 }
