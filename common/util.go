@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 // RandomStr generate random string
@@ -32,7 +33,7 @@ func GetMD5Hash(text string) string {
 
 // IsFileExist checks if the file name is existed
 func IsFileExist(fileName string, dirPath string) bool {
-	fpath := dirPath + "/" + fileName
+	fpath := filepath.Join(dirPath, fileName)
 	_, err := os.Stat(fpath)
 	return err == nil
 }

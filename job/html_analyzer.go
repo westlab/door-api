@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -53,10 +54,14 @@ func (htmlAnalyzer *HTMLAnalyzer) Manage(b *model.Browsing) {
 
 	// save words to Word table
 	counts := WordCount(wordList)
-	var w *model.Word
+	var words []*model.Word
 	for _, count := range counts {
-		w = model.NewWord(count.Name, count.Count)
-		w.Save()
+		w := model.NewWord(count.Name, count.Count)
+		words = append(words, w)
+	}
+	err = model.WordBulkInsert(words)
+	if err != nil {
+		log.Println("WordBulkInsert: ", err)
 	}
 }
 
@@ -111,8 +116,9 @@ func RemoveHTMLTags(html string) string {
 // SaveWordsText saves text file from string slice
 func SaveWordsText(fileName string, strList []string) bool {
 	cxt := context.GetContext()
-	content := []byte(strings.Join(strList, "\n"))                                      // should use another split char like ","?
-	err := ioutil.WriteFile(cxt.GetConf().WordsPath+"/"+fileName, content, os.ModePerm) // conf.WordsPath is the dir to save words files
+	content := []byte(strings.Join(strList, "\n")) // should use another split char like ","?
+	fpath := filepath.Join(cxt.GetConf().WordsPath, fileName)
+	err := ioutil.WriteFile(fpath, content, os.ModePerm) // conf.WordsPath is the dir to save words files
 	if err != nil {
 		return false
 	}

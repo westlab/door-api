@@ -79,3 +79,22 @@ func (s *WordTestSuite) TestWordSave() {
 	}
 	s.Equal(true, savedFlag)
 }
+
+func (s *WordTestSuite) TestWrodBulkInsert() {
+	name := "INTEROP2016TWBI"
+	w1 := NewWord(name, int64(1))
+	w2 := NewWord(name, int64(2))
+	w3 := NewWord(name, int64(3))
+	ws := []*Word{w1, w2, w3}
+	WordBulkInsert(ws)
+
+	counts := GetWordCount(int64(0))
+	var savedFlag bool
+	for _, c := range counts {
+		if c.Name == "INTEROP2016TWBI" {
+			savedFlag = true
+			s.Equal(6, int(c.Count))
+		}
+	}
+	s.Equal(true, savedFlag)
+}

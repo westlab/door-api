@@ -40,6 +40,28 @@ func (w *Word) Save() {
 	}
 }
 
+// WordBulkInsert saves words to word table with bulk insert
+func WordBulkInsert(words []*Word) error {
+	cxt := context.GetContext()
+
+	conn, _ := dbr.Open(cxt.GetConf().DBType, cxt.GetConf().GetDSN(), nil)
+	// Create session
+	sess := conn.NewSession(nil)
+	defer sess.Close()
+
+	stmt := sess.InsertInto("word").Columns("name", "count")
+	for _, word := range words {
+		stmt.Record(word)
+	}
+
+	_, err := stmt.Exec()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // GetWordCount returns Word which contains word and count
 func GetWordCount(size int64) []Count {
 	// TODO: Test case
