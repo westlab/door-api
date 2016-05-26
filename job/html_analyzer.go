@@ -55,9 +55,8 @@ func (htmlAnalyzer *HTMLAnalyzer) Manage(b *model.Browsing) {
 	// save words to Word table
 	counts := WordCount(wordList)
 	words := make([]*model.Word, len(counts))
-	for _, count := range counts {
-		w := model.NewWord(count.Name, count.Count)
-		words = append(words, w)
+	for i := 0; i < len(words); i++ {
+		words[i] = model.NewWord(counts[i].Name, counts[i].Count)
 	}
 	err = model.WordBulkInsert(words)
 	if err != nil {
